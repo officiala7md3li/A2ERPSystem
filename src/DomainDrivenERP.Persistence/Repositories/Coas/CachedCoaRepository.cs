@@ -25,7 +25,7 @@ internal class CachedCoaRepository : ICoaRepository
         _cacheService = cacheService;
     }
 
-    public async Task CreateCoa(COA cOA, CancellationToken cancellationToken = default)
+    public async Task CreateCoa(Accounts cOA, CancellationToken cancellationToken = default)
     {
         await _decorated.CreateCoa(cOA, cancellationToken);
     }
@@ -46,7 +46,7 @@ internal class CachedCoaRepository : ICoaRepository
             async () => await _decorated.GetByAccountName(accountName, cancellationToken),
             cancellationToken);
     }
-    public async Task<COA?> GetCoaById(string coaId, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaById(string coaId, CancellationToken cancellationToken = default)
     {
         string key = $"coa-{coaId}";
         return await _cacheService.GetOrSetAsync(key,
@@ -55,7 +55,7 @@ internal class CachedCoaRepository : ICoaRepository
     }
 
 
-    public async Task<COA?> GetCoaByName(string coaParentName, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaByName(string coaParentName, CancellationToken cancellationToken = default)
     {
         string key = $"coaByName-{coaParentName}";
         return await _cacheService.GetOrSetAsync(key,
@@ -63,7 +63,7 @@ internal class CachedCoaRepository : ICoaRepository
             cancellationToken);
     }
 
-    public async Task<List<COA>?> GetCoaChilds(string parentCoaId, CancellationToken cancellationToken = default)
+    public async Task<List<Accounts>?> GetCoaChilds(string parentCoaId, CancellationToken cancellationToken = default)
     {
         string key = $"coaChilds-{parentCoaId}";
         return await _cacheService.GetOrSetAsync(key,
@@ -71,7 +71,7 @@ internal class CachedCoaRepository : ICoaRepository
             cancellationToken);
     }
 
-    public async Task<COA?> GetCoaWithChildren(string coaId, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaWithChildren(string coaId, CancellationToken cancellationToken = default)
     {
         string key = $"coaWithChildren-{coaId}";
         return await _cacheService.GetOrSetAsync(key,

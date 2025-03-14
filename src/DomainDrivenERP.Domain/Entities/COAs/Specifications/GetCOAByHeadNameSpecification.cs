@@ -8,9 +8,9 @@ using DomainDrivenERP.Domain.Shared.Specifications;
 namespace DomainDrivenERP.Domain.Entities.COAs.Specifications;
 public class GetCOAByHeadNameSpecification
 {
-    public static BaseSpecification<COA> GetCOAByHeadNameSpec(string coaParentName)
+    public static BaseSpecification<Accounts> GetCOAByHeadNameSpec(string coaParentName)
     {
-        var spec = new BaseSpecification<COA>(a => a.HeadName == coaParentName);
+        var spec = new BaseSpecification<Accounts>(a => a.HeadName == coaParentName);
         return spec;
     }
 }

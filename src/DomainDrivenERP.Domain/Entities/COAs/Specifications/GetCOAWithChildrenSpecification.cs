@@ -8,10 +8,10 @@ using DomainDrivenERP.Domain.Shared.Specifications;
 namespace DomainDrivenERP.Domain.Entities.COAs.Specifications;
 public class GetCOAWithChildrenSpecification
 {
-    public static BaseSpecification<COA> GetCOAWithChildrenSpec(string coaId)
+    public static BaseSpecification<Accounts> GetCOAWithChildrenSpec(string coaId)
     {
-        var spec = new BaseSpecification<COA>(a => a.HeadCode == coaId);
-        spec.AddInclude(c => c.COAs);
+        var spec = new BaseSpecification<Accounts>(a => a.HeadCode == coaId);
+        spec.AddInclude(c => c.ChildAccounts);
         return spec;
     }
 }

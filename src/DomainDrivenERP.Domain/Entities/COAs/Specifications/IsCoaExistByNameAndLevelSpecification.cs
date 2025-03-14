@@ -8,9 +8,9 @@ using DomainDrivenERP.Domain.Shared.Specifications;
 namespace DomainDrivenERP.Domain.Entities.COAs.Specifications;
 public static class IsCoaExistByNameAndLevelSpecification
 {
-    public static BaseSpecification<COA> IsCoaExistByNameAndLevelSpec(string coaName, int level = 1)
+    public static BaseSpecification<Accounts> IsCoaExistByNameAndLevelSpec(string coaName, int level = 1)
     {
-        var spec = new BaseSpecification<COA>(coa => coa.HeadName == coaName && coa.HeadLevel == level);
+        var spec = new BaseSpecification<Accounts>(coa => coa.HeadName == coaName && coa.HeadLevel == level);
         return spec;
     }
 }

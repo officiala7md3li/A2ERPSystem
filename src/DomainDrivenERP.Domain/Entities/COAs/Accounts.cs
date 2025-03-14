@@ -11,15 +11,15 @@ using DomainDrivenERP.Domain.Shared.Results;
 
 namespace DomainDrivenERP.Domain.Entities.COAs;
 
-public sealed class COA : AggregateRoot
+public sealed class Accounts : AggregateRoot
 {
-    private readonly List<COA> _coas = new();
+    private readonly List<Accounts> _accounts = new();
     private readonly List<Transaction> _transactions = new();
-    public COA()
+    public Accounts()
     {
 
     }
-    public COA(string headCode, string headName, string parentHeadCode, bool isGl, COA_Type type, int headLevel)
+    public Accounts(string headCode, string headName, string parentHeadCode, bool isGl, ChartOfAccountsType type, int headLevel)
     {
         Guard.Against.NullOrEmpty(headCode, nameof(headCode));
         Guard.Against.NullOrEmpty(headName, nameof(headName));
@@ -32,7 +32,7 @@ public sealed class COA : AggregateRoot
         Type = type;
         HeadLevel = headLevel;
     }
-    public COA(string headCode, string headName, bool isGl, COA_Type type)
+    public Accounts(string headCode, string headName, bool isGl, ChartOfAccountsType type)
     {
         Guard.Against.NullOrEmpty(headCode, nameof(headCode));
         Guard.Against.NullOrEmpty(headName, nameof(headName));
@@ -48,19 +48,19 @@ public sealed class COA : AggregateRoot
     public int HeadLevel { get; private set; }
     public bool IsActive { get; private set; }
     public bool IsGl { get; private set; }
-    public COA_Type Type { get; private set; }
-    public IReadOnlyCollection<COA> COAs => _coas;
+    public ChartOfAccountsType Type { get; private set; }
+    public IReadOnlyCollection<Accounts> ChildAccounts => _accounts;
     public IReadOnlyCollection<Transaction> Transactions => _transactions;
-    public COA ParentCOA { get; private set; }
+    public Accounts ParentAccount { get; private set; }
 
-    public static Result<COA> Create(string headName, COA? parentCoa, bool isGl = false)
+    public static Result<Accounts> Create(string headName, Accounts? parentCoa, bool isGl = false)
     {
         Guard.Against.NullOrEmpty(headName, nameof(headName));
         Guard.Against.Null(parentCoa, nameof(parentCoa));
 
         if (parentCoa == null)
         {
-            return Result.Failure<COA>(new Error("COA.Create", "Parent COA cannot be null."));
+            return Result.Failure<Accounts>(new Error("Accounts.Create", "Parent Accounts cannot be null."));
         }
 
         try
@@ -68,44 +68,44 @@ public sealed class COA : AggregateRoot
             int headLevel = parentCoa.HeadLevel + 1;
             string headCode = GenerateNextHeadCode(parentCoa);
 
-            var coa = new COA(headCode, headName, parentCoa.HeadCode, isGl, parentCoa.Type, headLevel);
-            parentCoa._coas.Add(coa);
+            var coa = new Accounts(headCode, headName, parentCoa.HeadCode, isGl, parentCoa.Type, headLevel);
+            parentCoa._accounts.Add(coa);
             coa.RaiseDomainEvent(new CreateCOADomainEvent(headName, parentCoa.HeadCode, parentCoa.Type));
 
             return coa;
         }
         catch (Exception ex)
         {
-            return Result.Failure<COA>(new Error("COA.Create", $"Failed to create COA: {ex.Message}"));
+            return Result.Failure<Accounts>(new Error("Accounts.Create", $"Failed to create Accounts: {ex.Message}"));
         }
     }
-    public static Result<COA> Create(string headName, string headCode, COA_Type type, bool isGl = false)
+    public static Result<Accounts> Create(string headName, string headCode, ChartOfAccountsType type, bool isGl = false)
     {
         Guard.Against.NullOrEmpty(headName, nameof(headName));
         Guard.Against.NullOrEmpty(headCode, nameof(headCode));
 
         if (string.IsNullOrEmpty(headCode))
         {
-            return Result.Failure<COA>(new Error("COA.Create", "Head code cannot be null or empty."));
+            return Result.Failure<Accounts>(new Error("Accounts.Create", "Head code cannot be null or empty."));
         }
 
         try
         {
-            var coa = new COA(headCode, headName, isGl, type);
+            var coa = new Accounts(headCode, headName, isGl, type);
             coa.RaiseDomainEvent(new CreateFirstLevelCoaDomainEvent(coa.HeadName, coa.Type));
             return coa;
         }
         catch (Exception ex)
         {
-            return Result.Failure<COA>(new Error("COA.Create", $"Failed to create COA: {ex.Message}"));
+            return Result.Failure<Accounts>(new Error("Accounts.Create", $"Failed to create Accounts: {ex.Message}"));
         }
     }
 
-    private static string GenerateNextHeadCode(COA parentCoa)
+    private static string GenerateNextHeadCode(Accounts parentCoa)
     {
         Guard.Against.Null(parentCoa, nameof(parentCoa));
 
-        var parentChildCodes = parentCoa._coas
+        var parentChildCodes = parentCoa._accounts
             .Where(coa => coa.HeadCode.Length == parentCoa.HeadCode.Length + 2)
             .Select(coa => int.Parse(coa.HeadCode.Substring(parentCoa.HeadCode.Length)))
             .ToList();
@@ -114,9 +114,9 @@ public sealed class COA : AggregateRoot
         return $"{parentCoa.HeadCode}{nextChildCode:D2}";
     }
 
-    public void InsertChildrens(List<COA> childCOAs)
+    public void InsertChildrens(List<Accounts> childCOAs)
     {
         Guard.Against.Null(childCOAs, nameof(childCOAs));
-        _coas.AddRange(childCOAs);
+        _accounts.AddRange(childCOAs);
     }
 }

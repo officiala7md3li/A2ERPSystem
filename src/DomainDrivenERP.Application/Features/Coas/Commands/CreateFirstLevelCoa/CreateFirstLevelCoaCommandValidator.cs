@@ -11,6 +11,6 @@ public class CreateFirstLevelCoaCommandValidator : AbstractValidator<CreateFirst
     public CreateFirstLevelCoaCommandValidator()
     {
         RuleFor(a => a.HeadName).NotEmpty().WithMessage("Head Name can't be null or empty");
-        RuleFor(a => a.Type).NotNull().WithMessage("Please Provide Type for the COA");
+        RuleFor(a => a.Type).NotNull().WithMessage("Please Provide Type for the Accounts");
     }
 }

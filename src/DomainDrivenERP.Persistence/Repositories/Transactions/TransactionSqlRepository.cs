@@ -28,7 +28,7 @@ internal class TransactionSqlRepository : ITransactionRepository
         const string sql = @"
         SELECT t.TransactionId, t.JournalId, t.Debit, t.Credit, c.HeadName AS AccountName, c.HeadCode AS AccountHeadCode
         FROM Transactions t 
-        INNER JOIN Coas c ON t.COAId = c.HeadCode 
+        INNER JOIN Accounts c ON t.COAId = c.HeadCode 
         INNER JOIN Journals j ON t.JournalId = j.Id
         WHERE c.HeadName = @AccountName   
         AND (@StartDate IS NULL OR j.JournalDate >= @StartDate)
@@ -48,7 +48,7 @@ internal class TransactionSqlRepository : ITransactionRepository
         const string sql = @"
             SELECT t.TransactionId, t.JournalId, t.Debit, t.Credit, c.HeadName AS AccountName, c.HeadCode AS AccountHeadCode
             FROM Transactions t 
-            INNER JOIN Coas c ON t.COAId = c.HeadCode 
+            INNER JOIN Accounts c ON t.COAId = c.HeadCode 
             INNER JOIN Journals j ON t.JournalId = j.Id
             WHERE t.COAId = @AccountHeadCode
             AND (@StartDate IS NULL OR j.JournalDate >= @StartDate)

@@ -14,24 +14,30 @@ public class UserConfiguration : IEntityTypeConfiguration<ApplicationUser>
              new ApplicationUser
              {
                  Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
-                 Email = "admin@localhost.com",
-                 NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                 Email = "admin@a7md.com",
+                 NormalizedEmail = "ADMIN@A7MD.COM",
                  FirstName = "System",
                  LastName = "Admin",
-                 UserName = "admin@localhost.com",
-                 NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                 UserName = "admin@a7md.com",
+                 NormalizedUserName = "ADMIN@A7MD.COM",
+                 Gender=Enum.Gender.Male,
+                 DoB = new DateTime(1998, 11, 1),
+                 Code= "ADM-1",
                  PasswordHash = hasher.HashPassword(null, "123"),
                  EmailConfirmed = true
              },
              new ApplicationUser
              {
                  Id = "9e224968-33e4-4652-b7b7-8574d048cdb9",
-                 Email = "user@localhost.com",
-                 NormalizedEmail = "USER@LOCALHOST.COM",
+                 Email = "user@a7md.com",
+                 NormalizedEmail = "USER@A7MD.COM",
                  FirstName = "System",
                  LastName = "User",
-                 UserName = "user@localhost.com",
-                 NormalizedUserName = "USER@LOCALHOST.COM",
+                 UserName = "user@a7md.com",
+                 NormalizedUserName = "USER@A7MD.COM",
+                 Gender = Enum.Gender.Male,
+                 DoB = new DateTime(1998, 11, 1),
+                 Code = "USR-1",
                  PasswordHash = hasher.HashPassword(null, "123"),
                  EmailConfirmed = true
              }

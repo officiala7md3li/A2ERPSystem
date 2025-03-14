@@ -9,14 +9,14 @@ using DomainDrivenERP.Domain.Entities.COAs;
 using DomainDrivenERP.Domain.Enums;
 
 namespace DomainDrivenERP.Application.Features.Coas.Commands.CreateFirstLevelCoa;
-public class CreateFirstLevelCoaCommand : ICommand<COA>
+public class CreateFirstLevelCoaCommand : ICommand<Accounts>
 {
-    public CreateFirstLevelCoaCommand(string headName, COA_Type type)
+    public CreateFirstLevelCoaCommand(string headName, ChartOfAccountsType type)
     {
         HeadName = headName;
         Type = type;
     }
 
     public string HeadName { get; }
-    public COA_Type Type { get; }
+    public ChartOfAccountsType Type { get; }
 }

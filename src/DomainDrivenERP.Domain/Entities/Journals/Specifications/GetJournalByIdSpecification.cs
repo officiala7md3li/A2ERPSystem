@@ -16,7 +16,7 @@ public static class GetJournalByIdSpecification
 
         spec.AddInclude(j => j.Transactions);
 
-        spec.AddInclude("Transactions.COA");
+        spec.AddInclude("Transactions.Accounts");
 
         return spec;
     }

@@ -8,9 +8,9 @@ using DomainDrivenERP.Domain.Shared.Specifications;
 namespace DomainDrivenERP.Domain.Entities.COAs.Specifications;
 public static class GetLastHeadCodeInLevelOneSpecification
 {
-    public static BaseSpecification<COA> GetLastHeadCodeInLevelOneSpec()
+    public static BaseSpecification<Accounts> GetLastHeadCodeInLevelOneSpec()
     {
-        var spec = new BaseSpecification<COA>(coa => coa.HeadLevel == 1);
+        var spec = new BaseSpecification<Accounts>(coa => coa.HeadLevel == 1);
         spec.ApplyOrderByDescending(coa => coa.HeadCode);
         spec.ApplyPaging(0, 1);
         return spec;

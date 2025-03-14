@@ -37,6 +37,9 @@ namespace DomainDrivenERP.Identity.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("DoB")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -47,6 +50,15 @@ namespace DomainDrivenERP.Identity.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -75,6 +87,9 @@ namespace DomainDrivenERP.Identity.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<byte[]>("ProfilePic")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -95,44 +110,54 @@ namespace DomainDrivenERP.Identity.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users", "Security");
 
                     b.HasData(
                         new
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c69c48e-9802-4d22-991e-1ed5b5c05bdb",
-                            Email = "admin@localhost.com",
+                            Code = "ADM-1",
+                            ConcurrencyStamp = "82f820ef-9ced-4777-b03b-77565e465561",
+                            DoB = new DateTime(1998, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin@a7md.com",
                             EmailConfirmed = true,
                             FirstName = "System",
+                            Gender = 0,
+                            IsActive = false,
+                            IsDeleted = false,
                             LastName = "Admin",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
-                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDxSb/NozL6sGbHpsjNJKF4FdVwfli/fM26wX3Rsa0bAgR7YQN2cA93KpJL1BX6hFg==",
+                            NormalizedEmail = "ADMIN@A7MD.COM",
+                            NormalizedUserName = "ADMIN@A7MD.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGUHz6g3IX5oXMH+AnBR76JrRrSteZ/Lj6PhKiipwb51J0j/h2cmfYMdZDirRtG/Xg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e46d1a89-22e4-4ba1-8f9e-bebe35eddf8b",
+                            SecurityStamp = "2db9ee0f-7ae3-4e63-9982-396d633f7ac2",
                             TwoFactorEnabled = false,
-                            UserName = "admin@localhost.com"
+                            UserName = "admin@a7md.com"
                         },
                         new
                         {
                             Id = "9e224968-33e4-4652-b7b7-8574d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "82eae5d9-f7e8-47f1-9101-ce82e7f32df9",
-                            Email = "user@localhost.com",
+                            Code = "USR-1",
+                            ConcurrencyStamp = "98f416ad-6b64-422f-b2b1-be6df3279534",
+                            DoB = new DateTime(1998, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "user@a7md.com",
                             EmailConfirmed = true,
                             FirstName = "System",
+                            Gender = 0,
+                            IsActive = false,
+                            IsDeleted = false,
                             LastName = "User",
                             LockoutEnabled = false,
-                            NormalizedEmail = "USER@LOCALHOST.COM",
-                            NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAXqgn9Gz1xzjhyhf2LAz6dBYSstYfIq98jGyarqCr58kfQ2icV9dOHgn3xYHOvzRQ==",
+                            NormalizedEmail = "USER@A7MD.COM",
+                            NormalizedUserName = "USER@A7MD.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJRer7eJ/pZm0goNcz/iai2c3Q3KRrM70oUYlLDhRFvN5T2iTrYa19GITCrmKgU4zg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "661387d0-9691-4725-be61-d27778a5d68f",
+                            SecurityStamp = "7bf80340-a8c9-4d3f-b4cf-67d854a2d44a",
                             TwoFactorEnabled = false,
-                            UserName = "user@localhost.com"
+                            UserName = "user@a7md.com"
                         });
                 });
 
@@ -160,7 +185,7 @@ namespace DomainDrivenERP.Identity.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("Role", "Security");
 
                     b.HasData(
                         new
@@ -199,7 +224,7 @@ namespace DomainDrivenERP.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RolesClaim", "Security");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -224,7 +249,7 @@ namespace DomainDrivenERP.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("UsersClaim", "Security");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -246,7 +271,7 @@ namespace DomainDrivenERP.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("UsersLogin", "Security");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -261,7 +286,7 @@ namespace DomainDrivenERP.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("UsersRole", "Security");
 
                     b.HasData(
                         new
@@ -292,7 +317,7 @@ namespace DomainDrivenERP.Identity.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("UsersToken", "Security");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

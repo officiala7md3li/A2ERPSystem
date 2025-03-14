@@ -12,7 +12,7 @@ public partial class add_coa_journal_transaction : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: "Coas",
+            name: "Accounts",
             columns: table => new
             {
                 HeadCode = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -30,7 +30,7 @@ public partial class add_coa_journal_transaction : Migration
                 table.ForeignKey(
                     name: "FK_Coas_Coas_ParentHeadCode",
                     column: x => x.ParentHeadCode,
-                    principalTable: "Coas",
+                    principalTable: "Accounts",
                     principalColumn: "HeadCode");
             });
 
@@ -62,7 +62,7 @@ public partial class add_coa_journal_transaction : Migration
                 table.ForeignKey(
                     name: "FK_Transactions_Coas_COAId",
                     column: x => x.COAId,
-                    principalTable: "Coas",
+                    principalTable: "Accounts",
                     principalColumn: "HeadCode");
                 table.ForeignKey(
                     name: "FK_Transactions_Journals_JournalId",
@@ -74,7 +74,7 @@ public partial class add_coa_journal_transaction : Migration
 
         migrationBuilder.CreateIndex(
             name: "IX_Coas_ParentHeadCode",
-            table: "Coas",
+            table: "Accounts",
             column: "ParentHeadCode");
 
         migrationBuilder.CreateIndex(
@@ -95,7 +95,7 @@ public partial class add_coa_journal_transaction : Migration
             name: "Transactions");
 
         migrationBuilder.DropTable(
-            name: "Coas");
+            name: "Accounts");
 
         migrationBuilder.DropTable(
             name: "Journals");

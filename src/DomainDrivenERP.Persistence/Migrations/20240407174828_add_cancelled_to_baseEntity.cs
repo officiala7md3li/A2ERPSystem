@@ -33,7 +33,7 @@ namespace DomainDrivenERP.Persistence.Migrations
 
             migrationBuilder.AddColumn<bool>(
                 name: "Cancelled",
-                table: "Coas",
+                table: "Accounts",
                 type: "bit",
                 nullable: false,
                 defaultValue: false);
@@ -56,7 +56,7 @@ namespace DomainDrivenERP.Persistence.Migrations
 
             migrationBuilder.DropColumn(
                 name: "Cancelled",
-                table: "Coas");
+                table: "Accounts");
         }
     }
 }

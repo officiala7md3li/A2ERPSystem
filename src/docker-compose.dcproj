@@ -10,10 +10,10 @@
     <DockerServiceName>DomainDrivenERP.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="docker-compose.override.yml">
-      <DependentUpon>docker-compose.yml</DependentUpon>
-    </None>
     <None Include="docker-compose.yml" />
     <None Include=".dockerignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="test\DomainDrivenERP.Application.UnitTests\Features\" />
   </ItemGroup>
 </Project>

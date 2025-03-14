@@ -8,10 +8,10 @@ using DomainDrivenERP.Domain.Shared.Specifications;
 namespace DomainDrivenERP.Domain.Entities.COAs.Specifications;
 public static class IsCoaExistByNameAndParentNameSpecification
 {
-    public static BaseSpecification<COA> IsCoaExistByNameAndParentNameSpec(string coaName, string coaParentName)
+    public static BaseSpecification<Accounts> IsCoaExistByNameAndParentNameSpec(string coaName, string coaParentName)
     {
-        var spec = new BaseSpecification<COA>(coa => coa.HeadName == coaName && coa.ParentCOA.HeadName == coaParentName);
-        spec.AddInclude(coa => coa.ParentCOA);
+        var spec = new BaseSpecification<Accounts>(coa => coa.HeadName == coaName && coa.ParentAccount.HeadName == coaParentName);
+        spec.AddInclude(coa => coa.ParentAccount);
         return spec;
     }
 }

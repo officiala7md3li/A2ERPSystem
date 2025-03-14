@@ -13,7 +13,7 @@ public partial class remove_id_from_coa : Migration
     {
         migrationBuilder.DropColumn(
             name: "Id",
-            table: "Coas");
+            table: "Accounts");
     }
 
     /// <inheritdoc />
@@ -21,7 +21,7 @@ public partial class remove_id_from_coa : Migration
     {
         migrationBuilder.AddColumn<Guid>(
             name: "Id",
-            table: "Coas",
+            table: "Accounts",
             type: "uniqueidentifier",
             nullable: false,
             defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));

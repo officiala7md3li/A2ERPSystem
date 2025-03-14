@@ -7,4 +7,4 @@ using DomainDrivenERP.Domain.Enums;
 using DomainDrivenERP.Domain.Primitives;
 
 namespace DomainDrivenERP.Domain.Entities.COAs.DomainEvents;
-public sealed record CreateCOADomainEvent( string HeadName, string ParentHeadCode, COA_Type Type) : DomainEvent(Guid.NewGuid());
+public sealed record CreateCOADomainEvent( string HeadName, string ParentHeadCode, ChartOfAccountsType Type) : DomainEvent(Guid.NewGuid());

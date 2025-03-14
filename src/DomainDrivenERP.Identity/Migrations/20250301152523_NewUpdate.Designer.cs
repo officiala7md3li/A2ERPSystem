@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomainDrivenERP.Identity.Migrations
 {
     [DbContext(typeof(IdentityDbContext))]
-    [Migration("20240506144124_seeding_identity")]
-    partial class seeding_identity
+    [Migration("20250301152523_NewUpdate")]
+    partial class NewUpdate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -98,44 +98,44 @@ namespace DomainDrivenERP.Identity.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("Users", "Security");
 
                     b.HasData(
                         new
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c69c48e-9802-4d22-991e-1ed5b5c05bdb",
-                            Email = "admin@localhost.com",
+                            ConcurrencyStamp = "da999ccb-4261-414c-b352-08c1b90ac854",
+                            Email = "admin@a7md.com",
                             EmailConfirmed = true,
                             FirstName = "System",
                             LastName = "Admin",
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@LOCALHOST.COM",
-                            NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDxSb/NozL6sGbHpsjNJKF4FdVwfli/fM26wX3Rsa0bAgR7YQN2cA93KpJL1BX6hFg==",
+                            NormalizedEmail = "ADMIN@A7MD.COM",
+                            NormalizedUserName = "ADMIN@A7MD.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBWMfFSmSq3pbybByMiJtV+lG6G1uAKIpGvoedsRabjH8mJdowfK4Lq7+PN+MT0Kdw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e46d1a89-22e4-4ba1-8f9e-bebe35eddf8b",
+                            SecurityStamp = "2eb543a5-8279-4295-8113-c210c4d8b1f7",
                             TwoFactorEnabled = false,
-                            UserName = "admin@localhost.com"
+                            UserName = "admin@a7md.com"
                         },
                         new
                         {
                             Id = "9e224968-33e4-4652-b7b7-8574d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "82eae5d9-f7e8-47f1-9101-ce82e7f32df9",
-                            Email = "user@localhost.com",
+                            ConcurrencyStamp = "b8a18ae5-b100-4aa9-8b03-ae8c40256d4c",
+                            Email = "user@a7md.com",
                             EmailConfirmed = true,
                             FirstName = "System",
                             LastName = "User",
                             LockoutEnabled = false,
-                            NormalizedEmail = "USER@LOCALHOST.COM",
-                            NormalizedUserName = "USER@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAXqgn9Gz1xzjhyhf2LAz6dBYSstYfIq98jGyarqCr58kfQ2icV9dOHgn3xYHOvzRQ==",
+                            NormalizedEmail = "USER@A7MD.COM",
+                            NormalizedUserName = "USER@A7MD.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC+2NB6h7fQEGhdz5AcVkgWwMqannj+YOOshqehxQsoFmwqbAzNwZPwEmDzlDrPI2w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "661387d0-9691-4725-be61-d27778a5d68f",
+                            SecurityStamp = "fe88ba60-49bc-4ee1-8ee5-f075402315b0",
                             TwoFactorEnabled = false,
-                            UserName = "user@localhost.com"
+                            UserName = "user@a7md.com"
                         });
                 });
 
@@ -163,7 +163,7 @@ namespace DomainDrivenERP.Identity.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("Role", "Security");
 
                     b.HasData(
                         new
@@ -202,7 +202,7 @@ namespace DomainDrivenERP.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("RolesClaim", "Security");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -227,7 +227,7 @@ namespace DomainDrivenERP.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("UsersClaim", "Security");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -249,7 +249,7 @@ namespace DomainDrivenERP.Identity.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("UsersLogin", "Security");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -264,7 +264,7 @@ namespace DomainDrivenERP.Identity.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("UsersRole", "Security");
 
                     b.HasData(
                         new
@@ -295,7 +295,7 @@ namespace DomainDrivenERP.Identity.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("UsersToken", "Security");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -40,12 +40,12 @@ internal class JournalSqlRepository : IJournalRepository
                c.Id, c.HeadCode, c.HeadName, c.HeadLevel, c.ParentHeadCode
         FROM Journals j
         LEFT JOIN Transactions t ON j.Id = t.JournalId
-        LEFT JOIN COAs c ON t.COAId = c.Id
+        LEFT JOIN Accounts c ON t.COAId = c.Id
         WHERE j.Id = @JournalId";
 
         var journalDictionary = new Dictionary<Guid, Journal>();
 
-        await _sqlConnection.QueryAsync<Journal, Transaction, COA, Journal>(
+        await _sqlConnection.QueryAsync<Journal, Transaction, Accounts, Journal>(
             sql,
             (journal, transaction, coa) =>
             {

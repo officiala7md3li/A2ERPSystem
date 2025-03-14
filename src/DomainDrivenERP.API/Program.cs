@@ -53,7 +53,7 @@ app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleWare>();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -23,11 +23,11 @@ internal class GetCoaWithChildrensQueryHandler : IQueryHandler<GetCoaWithChildre
 
     public async Task<Result<CoaWithChildrenDto>> Handle(GetCoaWithChildrensQuery request, CancellationToken cancellationToken)
     {
-        COA? result = await _coaRepository.GetCoaWithChildren(request.HeadCode);
+        Accounts? result = await _coaRepository.GetCoaWithChildren(request.HeadCode);
 
         if (result is null)
         {
-            return Result.Failure<CoaWithChildrenDto>(new Error("COA.GetCoaWithChildrensQuery", "COA not found."));
+            return Result.Failure<CoaWithChildrenDto>(new Error("Accounts.GetCoaWithChildrensQuery", "Accounts not found."));
         }
         return _mapper.Map<CoaWithChildrenDto>(result);
     }

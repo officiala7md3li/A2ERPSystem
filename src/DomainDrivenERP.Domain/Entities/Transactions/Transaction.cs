@@ -34,7 +34,7 @@ public sealed class Transaction : BaseEntity
     public Guid JournalId { get; private set; }
     public Journal Journal { get; private set; }
     public string COAId { get; private set; }
-    public COA COA { get; private set; }
+    public Accounts COA { get; private set; }
     public double Debit { get; private set; }
     public double Credit { get; private set; }
 

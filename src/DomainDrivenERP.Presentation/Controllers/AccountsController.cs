@@ -16,26 +16,26 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DomainDrivenERP.Presentation.Controllers;
-[Microsoft.AspNetCore.Mvc.Route("api/v1/coas")]
-public sealed class CoasController : AppControllerBase
+[Microsoft.AspNetCore.Mvc.Route("api/v1/Accounts")]
+public sealed class AccountsController : AppControllerBase
 {
-    public CoasController(ISender sender) : base(sender)
+    public AccountsController(ISender sender) : base(sender)
     {
     }
 
     [HttpPost("create")]
     public async Task<IActionResult> CreateCoa(CreateCoaCommand request, CancellationToken cancellationToken)
     {
-        Result<COA> result = await Sender.Send(request, cancellationToken);
+        Result<Accounts> result = await Sender.Send(request, cancellationToken);
         return CustomResult(result);
     }
     [HttpPost("create/firstLevel")]
     public async Task<IActionResult> CreateFirstCoaLevel(CreateFirstLevelCoaCommand request, CancellationToken cancellationToken)
     {
-        Result<COA> result = await Sender.Send(request, cancellationToken);
+        Result<Accounts> result = await Sender.Send(request, cancellationToken);
         return CustomResult(result);
     }
-    [HttpGet("coa-tree/{id}")]
+    [HttpGet("Accounts-tree/{id}")]
     public async Task<IActionResult> GetCoaWithChildrens(string id, CancellationToken cancellationToken)
     {
         Result<CoaWithChildrenDto> result = await Sender.Send(new GetCoaWithChildrensQuery(id), cancellationToken);

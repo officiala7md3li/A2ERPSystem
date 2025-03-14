@@ -14,6 +14,6 @@ public class CoaWithChildrenDto
     public int HeadLevel { get; set; }
     public bool IsActive { get; set; }
     public bool IsGl { get; set; }
-    public COA_Type Type { get; set; }
+    public ChartOfAccountsType Type { get; set; }
     public List<CoaWithChildrenDto> CoAs { get; set; }
 }

@@ -12,6 +12,6 @@ public class GetCoaWithChildrensQueryMapper : Profile
 {
     public GetCoaWithChildrensQueryMapper()
     {
-        CreateMap<COA, CoaWithChildrenDto>();
+        CreateMap<Accounts, CoaWithChildrenDto>();
     }
 }

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DomainDrivenERP.Persistence.Configurations;
-internal sealed class COAConfiguration : IEntityTypeConfiguration<COA>
+internal sealed class COAConfiguration : IEntityTypeConfiguration<Accounts>
 {
-    public void Configure(EntityTypeBuilder<COA> builder)
+    public void Configure(EntityTypeBuilder<Accounts> builder)
     {
-        builder.ToTable(TableNames.Coas);
+        builder.ToTable(TableNames.Accounts);
 
         builder.Ignore(c => c.Id);
 
@@ -25,8 +25,8 @@ internal sealed class COAConfiguration : IEntityTypeConfiguration<COA>
         builder.Property(c => c.HeadName)
             .IsRequired();
 
-        builder.HasMany(c => c.COAs)
-            .WithOne(c => c.ParentCOA)
+        builder.HasMany(c => c.ChildAccounts)
+            .WithOne(c => c.ParentAccount)
             .HasForeignKey(c => c.ParentHeadCode)
             .IsRequired(false);
 

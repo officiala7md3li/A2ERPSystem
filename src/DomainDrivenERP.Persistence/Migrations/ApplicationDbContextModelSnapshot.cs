@@ -17,12 +17,12 @@ namespace DomainDrivenERP.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.COAs.COA", b =>
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Accounts.Accounts", b =>
                 {
                     b.Property<string>("HeadCode")
                         .HasColumnType("nvarchar(450)");
@@ -53,7 +53,7 @@ namespace DomainDrivenERP.Persistence.Migrations
 
                     b.HasIndex("ParentHeadCode");
 
-                    b.ToTable("Coas", (string)null);
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Categories.Category", b =>
@@ -355,13 +355,13 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.ToTable("OutboxMessageConsumers", (string)null);
                 });
 
-            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.COAs.COA", b =>
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Accounts.Accounts", b =>
                 {
-                    b.HasOne("DomainDrivenERP.Domain.Entities.COAs.COA", "ParentCOA")
-                        .WithMany("COAs")
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Accounts.Accounts", "ParentAccount")
+                        .WithMany("Accounts")
                         .HasForeignKey("ParentHeadCode");
 
-                    b.Navigation("ParentCOA");
+                    b.Navigation("ParentAccount");
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.Invoice", b =>
@@ -381,7 +381,7 @@ namespace DomainDrivenERP.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("DomainDrivenERP.Domain.Entities.LineItems.LineItem.UnitPrice#DomainDrivenERP.Domain.ValueObjects.Price", "UnitPrice", b1 =>
+                    b.OwnsOne("DomainDrivenERP.Domain.ValueObjects.Price", "UnitPrice", b1 =>
                         {
                             b1.Property<Guid>("LineItemId")
                                 .HasColumnType("uniqueidentifier");
@@ -397,7 +397,7 @@ namespace DomainDrivenERP.Persistence.Migrations
 
                             b1.HasKey("LineItemId");
 
-                            b1.ToTable("LineItems", (string)null);
+                            b1.ToTable("LineItems");
 
                             b1.WithOwner()
                                 .HasForeignKey("LineItemId");
@@ -424,7 +424,7 @@ namespace DomainDrivenERP.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("DomainDrivenERP.Domain.Entities.Products.Product.Price#DomainDrivenERP.Domain.ValueObjects.Price", "Price", b1 =>
+                    b.OwnsOne("DomainDrivenERP.Domain.ValueObjects.Price", "Price", b1 =>
                         {
                             b1.Property<Guid>("ProductId")
                                 .HasColumnType("uniqueidentifier");
@@ -440,7 +440,7 @@ namespace DomainDrivenERP.Persistence.Migrations
 
                             b1.HasKey("ProductId");
 
-                            b1.ToTable("Products", (string)null);
+                            b1.ToTable("Products");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
@@ -452,7 +452,7 @@ namespace DomainDrivenERP.Persistence.Migrations
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Transactions.Transaction", b =>
                 {
-                    b.HasOne("DomainDrivenERP.Domain.Entities.COAs.COA", "COA")
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Accounts.Accounts", "COA")
                         .WithMany("Transactions")
                         .HasForeignKey("COAId");
 
@@ -467,9 +467,9 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.Navigation("Journal");
                 });
 
-            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.COAs.COA", b =>
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Accounts.Accounts", b =>
                 {
-                    b.Navigation("COAs");
+                    b.Navigation("Accounts");
 
                     b.Navigation("Transactions");
                 });

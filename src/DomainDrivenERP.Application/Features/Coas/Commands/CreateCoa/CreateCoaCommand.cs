@@ -7,7 +7,7 @@ using DomainDrivenERP.Application.Abstractions.Messaging;
 using DomainDrivenERP.Domain.Entities.COAs;
 
 namespace DomainDrivenERP.Application.Features.Coas.Commands.CreateCoa;
-public class CreateCoaCommand : ICommand<COA>
+public class CreateCoaCommand : ICommand<Accounts>
 {
     public CreateCoaCommand(string coaName, string coaParentName)
     {

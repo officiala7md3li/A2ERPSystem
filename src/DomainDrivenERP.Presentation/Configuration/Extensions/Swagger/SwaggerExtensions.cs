@@ -8,7 +8,7 @@ public static class SwaggerExtensions
 {
     public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services)
     {
-        services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "CleanDDD", Version = "v1" }));
+        services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "A2ERPSystem", Version = "v1" }));
         services.AddSwaggerGen(options =>
         {
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -41,7 +41,7 @@ public static class SwaggerExtensions
     public static IApplicationBuilder UseSwaggerDocumentation(this IApplicationBuilder app)
     {
         app.UseSwagger();
-        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CleanDDD v1"));
+        app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "A2ERPSystem v1"));
         return app;
     }
 }
