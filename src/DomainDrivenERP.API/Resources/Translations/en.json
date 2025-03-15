@@ -1,0 +1,155 @@
+{
+  "general": {
+    "save": {
+      "value": "Save",
+      "module": "Common",
+      "group": "Actions"
+    },
+    "cancel": {
+      "value": "Cancel",
+      "module": "Common",
+      "group": "Actions"
+    },
+    "delete": {
+      "value": "Delete",
+      "module": "Common",
+      "group": "Actions"
+    },
+    "edit": {
+      "value": "Edit",
+      "module": "Common",
+      "group": "Actions"
+    }
+  },
+  "validation": {
+    "required": {
+      "value": "This field is required",
+      "module": "Common",
+      "group": "Validation"
+    },
+    "invalid_format": {
+      "value": "Invalid format",
+      "module": "Common",
+      "group": "Validation"
+    }
+  },
+  "auth": {
+    "login": {
+      "value": "Login",
+      "module": "Authentication",
+      "group": "Actions"
+    },
+    "logout": {
+      "value": "Logout",
+      "module": "Authentication",
+      "group": "Actions"
+    },
+    "register": {
+      "value": "Register",
+      "module": "Authentication",
+      "group": "Actions"
+    }
+  },
+  "products": {
+    "add_product": {
+      "value": "Add Product",
+      "module": "Products",
+      "group": "Actions"
+    },
+    "edit_product": {
+      "value": "Edit Product",
+      "module": "Products",
+      "group": "Actions"
+    },
+    "delete_product": {
+      "value": "Delete Product",
+      "module": "Products",
+      "group": "Actions"
+    }
+  },
+  "customers": {
+    "add_customer": {
+      "value": "Add Customer",
+      "module": "Customers",
+      "group": "Actions"
+    },
+    "edit_customer": {
+      "value": "Edit Customer",
+      "module": "Customers",
+      "group": "Actions"
+    },
+    "delete_customer": {
+      "value": "Delete Customer",
+      "module": "Customers",
+      "group": "Actions"
+    }
+  },
+  "orders": {
+    "create_order": {
+      "value": "Create Order",
+      "module": "Orders",
+      "group": "Actions"
+    },
+    "cancel_order": {
+      "value": "Cancel Order",
+      "module": "Orders",
+      "group": "Actions"
+    },
+    "order_status": {
+      "pending": {
+        "value": "Pending",
+        "module": "Orders",
+        "group": "Status"
+      },
+      "processing": {
+        "value": "Processing",
+        "module": "Orders",
+        "group": "Status"
+      },
+      "completed": {
+        "value": "Completed",
+        "module": "Orders",
+        "group": "Status"
+      },
+      "cancelled": {
+        "value": "Cancelled",
+        "module": "Orders",
+        "group": "Status"
+      }
+    }
+  },
+  "invoices": {
+    "create_invoice": {
+      "value": "Create Invoice",
+      "module": "Invoices",
+      "group": "Actions"
+    },
+    "view_invoice": {
+      "value": "View Invoice",
+      "module": "Invoices",
+      "group": "Actions"
+    },
+    "invoice_status": {
+      "draft": {
+        "value": "Draft",
+        "module": "Invoices",
+        "group": "Status"
+      },
+      "sent": {
+        "value": "Sent",
+        "module": "Invoices",
+        "group": "Status"
+      },
+      "paid": {
+        "value": "Paid",
+        "module": "Invoices",
+        "group": "Status"
+      },
+      "overdue": {
+        "value": "Overdue",
+        "module": "Invoices",
+        "group": "Status"
+      }
+    }
+  }
+}

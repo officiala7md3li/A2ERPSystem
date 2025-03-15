@@ -1,0 +1,155 @@
+{
+  "general": {
+    "save": {
+      "value": "حفظ",
+      "module": "Common",
+      "group": "Actions"
+    },
+    "cancel": {
+      "value": "إلغاء",
+      "module": "Common",
+      "group": "Actions"
+    },
+    "delete": {
+      "value": "حذف",
+      "module": "Common",
+      "group": "Actions"
+    },
+    "edit": {
+      "value": "تعديل",
+      "module": "Common",
+      "group": "Actions"
+    }
+  },
+  "validation": {
+    "required": {
+      "value": "هذا الحقل مطلوب",
+      "module": "Common",
+      "group": "Validation"
+    },
+    "invalid_format": {
+      "value": "صيغة غير صحيحة",
+      "module": "Common",
+      "group": "Validation"
+    }
+  },
+  "auth": {
+    "login": {
+      "value": "تسجيل الدخول",
+      "module": "Authentication",
+      "group": "Actions"
+    },
+    "logout": {
+      "value": "تسجيل الخروج",
+      "module": "Authentication",
+      "group": "Actions"
+    },
+    "register": {
+      "value": "تسجيل حساب جديد",
+      "module": "Authentication",
+      "group": "Actions"
+    }
+  },
+  "products": {
+    "add_product": {
+      "value": "إضافة منتج",
+      "module": "Products",
+      "group": "Actions"
+    },
+    "edit_product": {
+      "value": "تعديل منتج",
+      "module": "Products",
+      "group": "Actions"
+    },
+    "delete_product": {
+      "value": "حذف منتج",
+      "module": "Products",
+      "group": "Actions"
+    }
+  },
+  "customers": {
+    "add_customer": {
+      "value": "إضافة عميل",
+      "module": "Customers",
+      "group": "Actions"
+    },
+    "edit_customer": {
+      "value": "تعديل عميل",
+      "module": "Customers",
+      "group": "Actions"
+    },
+    "delete_customer": {
+      "value": "حذف عميل",
+      "module": "Customers",
+      "group": "Actions"
+    }
+  },
+  "orders": {
+    "create_order": {
+      "value": "إنشاء طلب",
+      "module": "Orders",
+      "group": "Actions"
+    },
+    "cancel_order": {
+      "value": "إلغاء طلب",
+      "module": "Orders",
+      "group": "Actions"
+    },
+    "order_status": {
+      "pending": {
+        "value": "قيد الانتظار",
+        "module": "Orders",
+        "group": "Status"
+      },
+      "processing": {
+        "value": "قيد المعالجة",
+        "module": "Orders",
+        "group": "Status"
+      },
+      "completed": {
+        "value": "مكتمل",
+        "module": "Orders",
+        "group": "Status"
+      },
+      "cancelled": {
+        "value": "ملغي",
+        "module": "Orders",
+        "group": "Status"
+      }
+    }
+  },
+  "invoices": {
+    "create_invoice": {
+      "value": "إنشاء فاتورة",
+      "module": "Invoices",
+      "group": "Actions"
+    },
+    "view_invoice": {
+      "value": "عرض الفاتورة",
+      "module": "Invoices",
+      "group": "Actions"
+    },
+    "invoice_status": {
+      "draft": {
+        "value": "مسودة",
+        "module": "Invoices",
+        "group": "Status"
+      },
+      "sent": {
+        "value": "مرسلة",
+        "module": "Invoices",
+        "group": "Status"
+      },
+      "paid": {
+        "value": "مدفوعة",
+        "module": "Invoices",
+        "group": "Status"
+      },
+      "overdue": {
+        "value": "متأخرة",
+        "module": "Invoices",
+        "group": "Status"
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@ using DomainDrivenERP.MiddleWares;
 using DomainDrivenERP.Persistence;
 using DomainDrivenERP.Presentation.Configuration.Extensions.Swagger;
 using Serilog;
+using DomainDrivenERP.API.Extensions;
 #region DI
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<GlobalExceptionHandlerMiddleWare>();
@@ -24,6 +25,8 @@ builder
     .AddApplicationPart(DomainDrivenERP.Presentation.AssemblyReference.Assembly);
 
 builder.Services.AddSwaggerDocumentation();
+
+builder.Services.AddCustomLocalization(builder.Configuration);
 
 builder.Services.AddApplicationDependencies()
                 .AddInfrustructureDependencies()
@@ -51,6 +54,8 @@ else
 app.UseHttpsRedirection();
 
 app.UseSerilogRequestLogging();
+
+app.UseRequestLocalization();
 
 app.UseMiddleware<GlobalExceptionHandlerMiddleWare>();
 app.UseAuthentication();

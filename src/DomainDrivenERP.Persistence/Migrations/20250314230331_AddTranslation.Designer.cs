@@ -4,6 +4,7 @@ using DomainDrivenERP.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DomainDrivenERP.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250314230331_AddTranslation")]
+    partial class AddTranslation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.14")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -281,42 +284,6 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.HasIndex("DisplayOrder");
 
                     b.ToTable("Languages", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("c3daf939-7c28-4e4b-8e4f-3b23c2fb4c64"),
-                            Cancelled = false,
-                            Code = "en",
-                            CurrencyFormat = "$#,##0.00",
-                            DateFormat = "MM/dd/yyyy",
-                            DisplayOrder = 1,
-                            FlagIcon = "🇺🇸",
-                            IsDefault = true,
-                            IsEnabled = true,
-                            IsRTL = false,
-                            Name = "English",
-                            NativeName = "English",
-                            NumberFormat = "#,##0.00",
-                            TimeFormat = "hh:mm tt"
-                        },
-                        new
-                        {
-                            Id = new Guid("a4daf939-7c28-4e4b-8e4f-3b23c2fb4c65"),
-                            Cancelled = false,
-                            Code = "ar",
-                            CurrencyFormat = "#,##0.00 ج.م",
-                            DateFormat = "dd/MM/yyyy",
-                            DisplayOrder = 2,
-                            FlagIcon = "🇪🇬",
-                            IsDefault = false,
-                            IsEnabled = true,
-                            IsRTL = true,
-                            Name = "Arabic",
-                            NativeName = "العربية",
-                            NumberFormat = "#,##0.00",
-                            TimeFormat = "HH:mm"
-                        });
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Localization.LanguageResource", b =>
@@ -421,24 +388,6 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LocalizationSettings", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b5daf939-7c28-4e4b-8e4f-3b23c2fb4c66"),
-                            AllowUserLanguageSelection = true,
-                            AutoDetectLanguage = true,
-                            CacheExpirationMinutes = 60,
-                            CacheTranslations = true,
-                            Cancelled = false,
-                            DefaultLanguageCode = "en",
-                            FallbackLanguageCode = "en",
-                            LoadAllLanguagesOnStartup = true,
-                            ResourceFileFormat = "json",
-                            ResourceFilePath = "Resources/Translations",
-                            ShowLanguageSelector = true,
-                            UseResourceKeys = false
-                        });
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Localization.TranslationAudit", b =>

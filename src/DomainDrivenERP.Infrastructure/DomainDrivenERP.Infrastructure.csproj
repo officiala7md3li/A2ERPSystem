@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DomainDrivenERP.Application\DomainDrivenERP.Application.csproj" />
+        <ProjectReference Include="..\DomainDrivenERP.Application\DomainDrivenERP.Application.csproj" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <ProjectReference Include="..\DomainDrivenERP.Application\DomainDrivenERP.Application.csproj" />
+	  <ProjectReference Include="..\DomainDrivenERP.Domain\DomainDrivenERP.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,4 +13,11 @@ internal static class TableNames
     internal const string Categories = nameof(Categories);
     internal const string Orders = nameof(Orders);
     internal const string LineItems = nameof(LineItems);
+    internal const string Languages = nameof(Languages);
+    internal const string LanguageResources = nameof(LanguageResources);
+    internal const string TranslationCaches = nameof(TranslationCaches);
+    internal const string TranslationImports = nameof(TranslationImports);
+    internal const string TranslationExports = nameof(TranslationExports);
+    internal const string LocalizationSettings = nameof(LocalizationSettings);
+    internal const string TranslationAudits = nameof(TranslationAudits);
 }

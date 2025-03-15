@@ -1,6 +1,4 @@
-﻿using DomainDrivenERP.Domain.Abstractions.Persistence.Caching;
-using DomainDrivenERP.Domain.Abstractions.Persistence.Data;
-using DomainDrivenERP.Domain.Abstractions.Persistence.Repositories;
+﻿using DomainDrivenERP.Domain.Abstractions.Persistence.Repositories;
 using DomainDrivenERP.Persistence.BackgroundJobs;
 using DomainDrivenERP.Persistence.Caching;
 using DomainDrivenERP.Persistence.Clients;
@@ -22,6 +20,11 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
+using DomainDrivenERP.Domain.Abstractions.Infrastructure;
+using DomainDrivenERP.Infrastructure.Services;
+using DomainDrivenERP.Persistence.Repositories.Localization;
+using DomainDrivenERP.Domain.Abstractions.Persistence.Data;
+using DomainDrivenERP.Domain.Abstractions.Persistence.Caching;
 
 namespace DomainDrivenERP.Persistence;
 
@@ -58,7 +61,12 @@ public static class PersistenceDependencies
 
         // Idempotency With MediatR Notification || Scrutor for Decorate
         services.Decorate(typeof(INotificationHandler<>), typeof(IdempotentDomainEventHandler<>));
+        // Register repositories
+        services.AddScoped<ILocalizationRepository, LocalizationRepository>();
+        services.Decorate<ILocalizationRepository, CachedLocalizationRepository>();
 
+        // Register services
+        services.AddScoped<ILocalizationService, LocalizationService>();
         // I Create the Repositories with many ways [ Choose the way you want and comment the others ]
         // Repositories With EF
         services.AddScoped<ICustomerRespository, CustomerRespository>();
@@ -113,6 +121,5 @@ public static class PersistenceDependencies
 
 
         return services;
-
     }
 }

@@ -17,7 +17,7 @@ namespace DomainDrivenERP.Identity.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -118,7 +118,7 @@ namespace DomainDrivenERP.Identity.Migrations
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
                             Code = "ADM-1",
-                            ConcurrencyStamp = "82f820ef-9ced-4777-b03b-77565e465561",
+                            ConcurrencyStamp = "eb044431-a81a-477b-bcfa-291371ad0c1a",
                             DoB = new DateTime(1998, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@a7md.com",
                             EmailConfirmed = true,
@@ -130,9 +130,9 @@ namespace DomainDrivenERP.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@A7MD.COM",
                             NormalizedUserName = "ADMIN@A7MD.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEGUHz6g3IX5oXMH+AnBR76JrRrSteZ/Lj6PhKiipwb51J0j/h2cmfYMdZDirRtG/Xg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELNSEYDWtSyyDv3wEjKCtnImS2d1JslLzH/lSA6zP+GxwDaWz94NZs93T/QwRSn0iA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2db9ee0f-7ae3-4e63-9982-396d633f7ac2",
+                            SecurityStamp = "03d031c1-a073-4773-97c8-426dd57470e7",
                             TwoFactorEnabled = false,
                             UserName = "admin@a7md.com"
                         },
@@ -141,7 +141,7 @@ namespace DomainDrivenERP.Identity.Migrations
                             Id = "9e224968-33e4-4652-b7b7-8574d048cdb9",
                             AccessFailedCount = 0,
                             Code = "USR-1",
-                            ConcurrencyStamp = "98f416ad-6b64-422f-b2b1-be6df3279534",
+                            ConcurrencyStamp = "57dfc496-b0c6-4ddb-996e-25021df971e1",
                             DoB = new DateTime(1998, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "user@a7md.com",
                             EmailConfirmed = true,
@@ -153,9 +153,9 @@ namespace DomainDrivenERP.Identity.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@A7MD.COM",
                             NormalizedUserName = "USER@A7MD.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJRer7eJ/pZm0goNcz/iai2c3Q3KRrM70oUYlLDhRFvN5T2iTrYa19GITCrmKgU4zg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBt2OTO3Y0f1wRNZFWLixuBfWWceaiQSNdK7Ul1nkapaowqmQmkMbnd90m4mFD3anw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7bf80340-a8c9-4d3f-b4cf-67d854a2d44a",
+                            SecurityStamp = "648cdd0d-5b83-41d3-b752-fb1c3f920edf",
                             TwoFactorEnabled = false,
                             UserName = "user@a7md.com"
                         });
