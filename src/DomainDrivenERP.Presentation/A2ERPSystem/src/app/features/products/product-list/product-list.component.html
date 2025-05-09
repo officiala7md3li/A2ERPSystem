@@ -1,0 +1,68 @@
+<div class="feature-container fade-in">
+  <header class="feature-header">
+    <div>
+      <h2>Product Management</h2>
+      <p class="subtitle">View and manage your product inventory</p>
+    </div>
+    <div class="actions-group">
+      <button class="tui-button tui-button_primary">
+        Add Product
+      </button>
+      <button class="tui-button tui-button_outline">
+        Filter
+      </button>
+    </div>
+  </header>
+
+  <div *ngIf="loading" class="content-section">
+    <div class="loading-indicator">Loading...</div>
+  </div>
+
+  <div *ngIf="error" class="content-section">
+    <div class="alert alert-error">
+      <span>{{ error }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error && products.length === 0" class="content-section">
+    <div class="empty-state">
+      <h3>No Products Found</h3>
+      <p>Start by adding your first product to the inventory.</p>
+      <button class="tui-button tui-button_primary">Add Product</button>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error && products.length > 0" class="product-table-container">
+    <table class="tui-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>SKU</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.name }}</td>
+          <td>{{ product.sku }}</td>
+          <td>{{ product.price | currency }}</td>
+          <td>
+            <span [ngClass]="{'status-badge--active': product.stockQuantity > 10, 'status-badge--inactive': product.stockQuantity <= 10}" class="status-badge">
+              {{ product.stockQuantity }}
+            </span>
+          </td>
+          <td>{{ product.categoryId }}</td>
+          <td>
+            <div class="actions-group">
+              <button class="tui-button tui-button_flat">Edit</button>
+              <button class="tui-button tui-button_flat">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

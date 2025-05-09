@@ -1,0 +1,150 @@
+// Colors
+$primary-color: var(--tui-primary);
+$primary-text: var(--tui-primary-text);
+$base-01: var(--tui-base-01);
+$base-02: var(--tui-base-02);
+$text-02: var(--tui-text-02);
+$radius-m: var(--tui-radius-m);
+$radius-l: var(--tui-radius-l);
+
+// Common styles
+.feature-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: $base-01;
+  border-radius: $radius-l;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: $text-02;
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.content-panel {
+  background: $base-01;
+  border-radius: $radius-l;
+  padding: 2rem;
+}
+
+// Form styles
+.form-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.form-row {
+  &--full {
+    grid-column: 1 / -1;
+  }
+
+  &--inline {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+// Table styles
+.grid-container {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.grid-header {
+  display: grid;
+  padding: 1rem;
+  background: $base-02;
+  border-radius: $radius-m;
+  font-weight: 500;
+}
+
+.grid-row {
+  display: grid;
+  padding: 1rem;
+  background: $base-01;
+  border-radius: $radius-m;
+  align-items: center;
+
+  &:hover {
+    background: $base-02;
+  }
+}
+
+// Button states
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-button {
+  padding: 0.5rem;
+  border-radius: $radius-m;
+  transition: opacity 0.2s;
+
+  &--hidden {
+    opacity: 0;
+  }
+
+  &--visible {
+    opacity: 1;
+  }
+}
+
+// Select styles
+.select-container {
+  min-width: 200px;
+}
+
+// Animation
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .form-container {
+    grid-template-columns: 1fr;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}

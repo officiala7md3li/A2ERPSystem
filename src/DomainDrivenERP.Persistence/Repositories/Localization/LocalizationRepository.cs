@@ -7,7 +7,7 @@ using Newtonsoft.Json.Linq;
 
 namespace DomainDrivenERP.Persistence.Repositories.Localization;
 
-internal sealed class LocalizationRepository : ILocalizationRepository
+public sealed class LocalizationRepository : ILocalizationRepository
 {
     private readonly ApplicationDbContext _context;
     private readonly string _translationsPath;

@@ -1,4 +1,4 @@
-﻿using DomainDrivenERP.Application.Abstractions.Messaging;
+using DomainDrivenERP.Application.Abstractions.Messaging;
 
 namespace DomainDrivenERP.Application.Features.Roles.Commands.CreateRole;
 public class CreateRoleCommand : ICommand<bool>

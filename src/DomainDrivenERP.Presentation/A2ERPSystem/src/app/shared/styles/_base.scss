@@ -1,0 +1,136 @@
+// Variables
+$primary-color: var(--tui-primary);
+$secondary-color: var(--tui-secondary);
+$text-color: var(--tui-text-01);
+$text-secondary: var(--tui-text-02);
+$background: var(--tui-base-01);
+$background-secondary: var(--tui-base-02);
+$border-radius: var(--tui-radius-m);
+$border-radius-lg: var(--tui-radius-l);
+$spacing-unit: 0.25rem;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-unit * 4;
+}
+
+// Utility Classes
+.feature-container {
+  background: $background;
+  border-radius: $border-radius-lg;
+  padding: $spacing-unit * 6;
+  margin: $spacing-unit * 4 0;
+}
+
+.feature-header {
+  @include flex-between;
+  margin-bottom: $spacing-unit * 6;
+
+  h2 {
+    color: $text-color;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+}
+
+.actions-group {
+  display: flex;
+  gap: $spacing-unit * 2;
+  align-items: center;
+}
+
+.content-section {
+  background: $background-secondary;
+  border-radius: $border-radius;
+  padding: $spacing-unit * 4;
+  margin: $spacing-unit * 4 0;
+}
+
+.grid-layout {
+  display: grid;
+  gap: $spacing-unit * 4;
+}
+
+.form-row {
+  margin-bottom: $spacing-unit * 4;
+  
+  &--inline {
+    display: flex;
+    align-items: center;
+    gap: $spacing-unit * 4;
+  }
+}
+
+.form-actions {
+  @include flex-between;
+  margin-top: $spacing-unit * 6;
+  padding-top: $spacing-unit * 4;
+  border-top: 1px solid var(--tui-base-03);
+}
+
+// Status Indicators
+.status-badge {
+  padding: $spacing-unit $spacing-unit * 2;
+  border-radius: $border-radius;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &--active {
+    background: var(--tui-success-bg);
+    color: var(--tui-success-fill);
+  }
+
+  &--inactive {
+    background: var(--tui-error-bg);
+    color: var(--tui-error-fill);
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .feature-container {
+    padding: $spacing-unit * 4;
+  }
+
+  .feature-header {
+    flex-direction: column;
+    gap: $spacing-unit * 4;
+    align-items: flex-start;
+  }
+
+  .actions-group {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .form-row--inline {
+    flex-direction: column;
+    gap: $spacing-unit * 2;
+  }
+}

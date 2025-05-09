@@ -1,0 +1,14 @@
+{
+  "General": {
+    "Hello": {
+      "value": "Bonjour",
+      "module": "General",
+      "group": "Greetings"
+    },
+    "Goodbye": {
+      "value": "Au revoir",
+      "module": "General",
+      "group": "Greetings"
+    }
+  }
+}

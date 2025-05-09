@@ -1,0 +1,25 @@
+<div class="container">
+  <header class="header">
+    <div class="logo">
+      <h1>A2ERPSystem</h1>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li>
+        <li><a routerLink="/products" routerLinkActive="active">Products</a></li>
+        <li><a routerLink="/localization" routerLinkActive="active">Localization</a></li>
+        <li><a routerLink="/reports" routerLinkActive="active">Reports</a></li>
+        <li><a routerLink="/settings" routerLinkActive="active">Settings</a></li>
+        <li><a routerLink="/help" routerLinkActive="active">Help</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+  
+  <footer class="footer">
+    <p>© 2025 DomainDrivenERP</p>
+  </footer>
+</div>

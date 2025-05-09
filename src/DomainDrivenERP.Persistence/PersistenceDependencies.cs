@@ -1,4 +1,4 @@
-﻿using DomainDrivenERP.Domain.Abstractions.Persistence.Repositories;
+using DomainDrivenERP.Domain.Abstractions.Persistence.Repositories;
 using DomainDrivenERP.Persistence.BackgroundJobs;
 using DomainDrivenERP.Persistence.Caching;
 using DomainDrivenERP.Persistence.Clients;

@@ -1,0 +1,135 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@taiga-ui/core/styles/taiga-ui-theme.scss';
+@import '@taiga-ui/core/styles/taiga-ui-fonts.scss';
+@import '@taiga-ui/styles/taiga-ui-global.scss';
+
+/* Custom global styles */
+body {
+  margin: 0;
+  font-family: var(--tui-font-text);
+  color: var(--tui-text-01);
+  background: var(--tui-base-01);
+}
+
+.tui-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.tui-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -0.5rem;
+}
+
+.tui-col {
+  padding: 0 0.5rem;
+  flex: 1;
+}
+
+/* Taiga UI custom button styles */
+.tui-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+}
+
+.tui-button_primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.tui-button_primary:hover {
+  background-color: #2563eb;
+}
+
+.tui-button_outline {
+  background-color: transparent;
+  border: 1px solid #d1d5db;
+  color: #4b5563;
+}
+
+.tui-button_outline:hover {
+  background-color: #f3f4f6;
+}
+
+.tui-button_flat {
+  background-color: transparent;
+  color: #4b5563;
+}
+
+.tui-button_flat:hover {
+  background-color: #f3f4f6;
+}
+
+/* Taiga UI table styles */
+.tui-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.tui-table th,
+.tui-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.tui-table th {
+  font-weight: 600;
+  color: #4b5563;
+  background-color: #f9fafb;
+}
+
+.tui-table tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* Loading indicator */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.header {
+  padding: 1rem 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.content {
+  min-height: calc(100vh - 10rem);
+  padding: 2rem 0;
+}
+
+.footer {
+  padding: 1rem 0;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  font-size: 0.875rem;
+}

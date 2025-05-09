@@ -1,4 +1,4 @@
-﻿using DomainDrivenERP.Application.Abstractions.Messaging;
+using DomainDrivenERP.Application.Abstractions.Messaging;
 using DomainDrivenERP.Domain.Abstractions.Identity;
 using DomainDrivenERP.Domain.Shared.Results;
 
