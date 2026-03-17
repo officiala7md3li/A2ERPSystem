@@ -1,6 +1,7 @@
 ﻿using DomainDrivenERP.Application.Features.Customers.Commands.CreateCustomer;
 using DomainDrivenERP.Application.Features.Customers.Queries.GetCustomerInvoicesById;
 using DomainDrivenERP.Application.Features.Customers.Queries.RetriveCustomer;
+using DomainDrivenERP.Application.Features.Customers.Queries.RetriveCustomers;
 using DomainDrivenERP.Application.Features.Invoices.Commands.CreateCustomerInvoice;
 using DomainDrivenERP.Application.Features.Invoices.Queries.RetriveCustomerInvoice;
 using DomainDrivenERP.Domain.Entities.Customers;
@@ -18,8 +19,7 @@ public sealed class CustomersController : AppControllerBase
     public CustomersController(ISender sender) : base(sender)
     {
 
-    }
-    [HttpPost("create")]
+    }    [HttpPost]
     public async Task<IActionResult> CreateCustomer(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
         Result<Customer> result = await Sender.Send(request, cancellationToken);

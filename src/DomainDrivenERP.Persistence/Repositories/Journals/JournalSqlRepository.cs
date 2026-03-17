@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +37,7 @@ internal class JournalSqlRepository : IJournalRepository
         string sql = @"
         SELECT j.Id, j.JournalDate, j.Description,
                t.TransactionId, t.JournalId, t.COAId, t.Debit, t.Credit,
-               c.Id, c.HeadCode, c.HeadName, c.HeadLevel, c.ParentHeadCode
+               c.Id, c.HeadCode, c.HeadName, c.HeadLevel, c.ParentAccountId, c.ParentHeadCode
         FROM Journals j
         LEFT JOIN Transactions t ON j.Id = t.JournalId
         LEFT JOIN Accounts c ON t.COAId = c.Id

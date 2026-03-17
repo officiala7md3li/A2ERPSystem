@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +30,7 @@ internal class CachedCoaRepository : ICoaRepository
         await _decorated.CreateCoa(cOA, cancellationToken);
     }
 
-    public async Task<string?> GetByAccountHeadCode(string accountHeadCode, CancellationToken cancellationToken = default)
+    public async Task<Guid?> GetByAccountHeadCode(string accountHeadCode, CancellationToken cancellationToken = default)
     {
         string key = $"coaByHeadCode-{accountHeadCode}";
 
@@ -39,14 +39,14 @@ internal class CachedCoaRepository : ICoaRepository
             cancellationToken);
     }
 
-    public async Task<string?> GetByAccountName(string accountName, CancellationToken cancellationToken = default)
+    public async Task<Guid?> GetByAccountName(string accountName, CancellationToken cancellationToken = default)
     {
         string key = $"accountName-{accountName}";
         return await _cacheService.GetOrSetAsync(key,
             async () => await _decorated.GetByAccountName(accountName, cancellationToken),
             cancellationToken);
     }
-    public async Task<Accounts?> GetCoaById(string coaId, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaById(Guid coaId, CancellationToken cancellationToken = default)
     {
         string key = $"coa-{coaId}";
         return await _cacheService.GetOrSetAsync(key,
@@ -63,15 +63,15 @@ internal class CachedCoaRepository : ICoaRepository
             cancellationToken);
     }
 
-    public async Task<List<Accounts>?> GetCoaChilds(string parentCoaId, CancellationToken cancellationToken = default)
+    public async Task<List<Accounts>?> GetCoaChilds(Guid parentAccountId, CancellationToken cancellationToken = default)
     {
-        string key = $"coaChilds-{parentCoaId}";
+        string key = $"coaChilds-{parentAccountId}";
         return await _cacheService.GetOrSetAsync(key,
-            async () => await _decorated.GetCoaChilds(parentCoaId, cancellationToken),
+            async () => await _decorated.GetCoaChilds(parentAccountId, cancellationToken),
             cancellationToken);
     }
 
-    public async Task<Accounts?> GetCoaWithChildren(string coaId, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaWithChildren(Guid coaId, CancellationToken cancellationToken = default)
     {
         string key = $"coaWithChildren-{coaId}";
         return await _cacheService.GetOrSetAsync(key,
@@ -87,7 +87,7 @@ internal class CachedCoaRepository : ICoaRepository
             cancellationToken);
     }
 
-    public async Task<bool> IsCoaExist(string coaId, CancellationToken cancellationToken = default)
+    public async Task<bool> IsCoaExist(Guid coaId, CancellationToken cancellationToken = default)
     {
         string key = $"coaExist-{coaId}";
         return await _cacheService.GetOrSetAsync(key,

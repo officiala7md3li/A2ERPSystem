@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
@@ -37,6 +37,7 @@ internal class TransactionRepository : ITransactionRepository
                 JournalId = t.JournalId,
                 Debit = t.Debit,
                 Credit = t.Credit,
+                AccountId = t.COAId,
                 AccountName = t.COA.HeadName,
                 AccountHeadCode = t.COA.HeadCode
             });
@@ -57,6 +58,7 @@ internal class TransactionRepository : ITransactionRepository
                 JournalId = t.JournalId,
                 Debit = t.Debit,
                 Credit = t.Credit,
+                AccountId = t.COAId,
                 AccountName = t.COA.HeadName,
                 AccountHeadCode = t.COA.HeadCode
             });

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -30,6 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\DomainDrivenERP.Application\DomainDrivenERP.Application.csproj" />
     <ProjectReference Include="..\..\DomainDrivenERP.Persistence\DomainDrivenERP.Persistence.csproj" />
+    <ProjectReference Include="..\..\DomainDrivenERP.Infrastructure\DomainDrivenERP.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

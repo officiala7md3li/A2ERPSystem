@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,22 +32,23 @@ internal class CreateJournalCommandHandler : ICommandHandler<CreateJournalComman
         {
             if (!string.IsNullOrEmpty(item.AccountName))
             {
-                string? coaId = await _coaRepository.GetByAccountName(item.AccountName);
-                if (string.IsNullOrEmpty(coaId))
+                Guid? coaId = await _coaRepository.GetByAccountName(item.AccountName);
+                if (coaId == null || coaId == Guid.Empty)
                 {
                     return Result.Failure<Journal>(new Error("Journal.CreateJournal", $"Account Name with name '{item.AccountName}' does not exist."));
                 }
-                item.AccountHeadCode = coaId;
+                item.AccountId = coaId.Value;
                 continue;
             }
 
             if (!string.IsNullOrEmpty(item.AccountHeadCode))
             {
-                string? coaId = await _coaRepository.GetByAccountHeadCode(item.AccountHeadCode);
-                if (string.IsNullOrEmpty(coaId))
+                Guid? coaId = await _coaRepository.GetByAccountHeadCode(item.AccountHeadCode);
+                if (coaId == null || coaId == Guid.Empty)
                 {
                     return Result.Failure<Journal>(new Error("Journal.CreateJournal", $"Account HeadCode with code '{item.AccountHeadCode}' does not exist."));
                 }
+                item.AccountId = coaId.Value;
             }
         }
         Result<Journal> journalResult = Journal.Create(request.JournalDescription, false, request.JournalDate, request.Transactions);

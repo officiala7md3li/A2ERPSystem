@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DomainDrivenERP.Application.Features.Categories.Commands.CreateCategory;
 using DomainDrivenERP.Application.Features.Categories.Commands.UpdateCategoryName;
+using DomainDrivenERP.Application.Features.Categories.Queries.GetAllCategories;
 using DomainDrivenERP.Application.Features.Categories.Queries.GetCategoriesByDateRange;
 using DomainDrivenERP.Application.Features.Categories.Queries.GetCategoryById;
 using DomainDrivenERP.Domain.Entities.Categories;
@@ -33,6 +34,13 @@ public class CategoriesController : AppControllerBase
     public async Task<IActionResult> UpdateCategoryName(UpdateCategoryNameCommand request, CancellationToken cancellationToken)
     {
         Result<Category> result = await Sender.Send(request, cancellationToken);
+        return CustomResult(result);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllCategories(CancellationToken cancellationToken)
+    {
+        Result<CustomList<Category>> result = await Sender.Send(new GetAllCategoriesQuery(), cancellationToken);
         return CustomResult(result);
     }
 

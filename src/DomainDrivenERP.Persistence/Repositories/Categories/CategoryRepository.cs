@@ -41,6 +41,13 @@ internal class CategoryRepository : ICategoryRepository
             .ToCustomListAsync();
     }
 
+    public async Task<CustomList<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Set<Category>()
+            .OrderBy(c => c.Name)
+            .ToCustomListAsync();
+    }
+
     public async Task UpdateAsync(Category category, CancellationToken cancellationToken = default)
     {
         _context.Set<Category>().Update(category);

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +23,7 @@ internal class GetCoaWithChildrensQueryHandler : IQueryHandler<GetCoaWithChildre
 
     public async Task<Result<CoaWithChildrenDto>> Handle(GetCoaWithChildrensQuery request, CancellationToken cancellationToken)
     {
-        Accounts? result = await _coaRepository.GetCoaWithChildren(request.HeadCode);
+        Accounts? result = await _coaRepository.GetCoaWithChildren(request.CoaId);
 
         if (result is null)
         {

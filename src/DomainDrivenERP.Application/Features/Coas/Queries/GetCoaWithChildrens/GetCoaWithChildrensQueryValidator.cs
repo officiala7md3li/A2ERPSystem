@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +10,6 @@ public class GetCoaWithChildrensQueryValidator : AbstractValidator<GetCoaWithChi
 {
     public GetCoaWithChildrensQueryValidator()
     {
-        RuleFor(a => a.HeadCode).NotEmpty().WithMessage("Head Code can't be Empty");
+        RuleFor(a => a.CoaId).NotEmpty().WithMessage("Account Id can't be Empty");
     }
 }

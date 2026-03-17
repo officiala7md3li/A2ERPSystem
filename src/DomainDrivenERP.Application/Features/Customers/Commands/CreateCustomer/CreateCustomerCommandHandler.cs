@@ -26,10 +26,22 @@ internal class CreateCustomerCommandHandler : ICommandHandler<CreateCustomerComm
         Result<FirstName> firstNameResult = FirstName.Create(request.FirstName);
         Result<LastName> lastNameResult = LastName.Create(request.LastName);
         Result<Email> emailResult = Email.Create(request.Email);
-        if (firstNameResult.IsFailure || lastNameResult.IsFailure)
+
+        if (firstNameResult.IsFailure)
         {
-            return Result.Failure<Customer>(new Error("Customer.CreateCustomer", "First name or Last Name is Not Valid"));
+            return Result.Failure<Customer>(firstNameResult.Error);
         }
+
+        if (lastNameResult.IsFailure)
+        {
+            return Result.Failure<Customer>(lastNameResult.Error);
+        }
+
+        if (emailResult.IsFailure)
+        {
+            return Result.Failure<Customer>(emailResult.Error);
+        }
+
         bool isEmailUnique = await _customerRespository.IsEmailUniqueAsync(emailResult.Value, cancellationToken);
         Result<Customer> customer = Customer.Create(// Achieve the 3 Principles
             firstNameResult.Value,

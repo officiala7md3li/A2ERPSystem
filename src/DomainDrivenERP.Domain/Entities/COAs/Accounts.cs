@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -19,20 +19,22 @@ public sealed class Accounts : AggregateRoot
     {
 
     }
-    public Accounts(string headCode, string headName, string parentHeadCode, bool isGl, ChartOfAccountsType type, int headLevel)
+    public Accounts(Guid id, string headCode, string headName, Guid? parentAccountId, string parentHeadCode, bool isGl, ChartOfAccountsType type, int headLevel)
+        : base(id)
     {
         Guard.Against.NullOrEmpty(headCode, nameof(headCode));
         Guard.Against.NullOrEmpty(headName, nameof(headName));
-        Guard.Against.NullOrEmpty(parentHeadCode, nameof(parentHeadCode));
 
         HeadCode = headCode;
         HeadName = headName;
+        ParentAccountId = parentAccountId;
         ParentHeadCode = parentHeadCode;
         IsGl = isGl;
         Type = type;
         HeadLevel = headLevel;
     }
-    public Accounts(string headCode, string headName, bool isGl, ChartOfAccountsType type)
+    public Accounts(Guid id, string headCode, string headName, bool isGl, ChartOfAccountsType type)
+        : base(id)
     {
         Guard.Against.NullOrEmpty(headCode, nameof(headCode));
         Guard.Against.NullOrEmpty(headName, nameof(headName));
@@ -44,6 +46,7 @@ public sealed class Accounts : AggregateRoot
     }
     public string HeadCode { get; private set; }
     public string HeadName { get; private set; }
+    public Guid? ParentAccountId { get; private set; }
     public string ParentHeadCode { get; private set; }
     public int HeadLevel { get; private set; }
     public bool IsActive { get; private set; }
@@ -67,10 +70,11 @@ public sealed class Accounts : AggregateRoot
         {
             int headLevel = parentCoa.HeadLevel + 1;
             string headCode = GenerateNextHeadCode(parentCoa);
+            Guid id = Guid.NewGuid();
 
-            var coa = new Accounts(headCode, headName, parentCoa.HeadCode, isGl, parentCoa.Type, headLevel);
+            var coa = new Accounts(id, headCode, headName, parentCoa.Id, parentCoa.HeadCode, isGl, parentCoa.Type, headLevel);
             parentCoa._accounts.Add(coa);
-            coa.RaiseDomainEvent(new CreateCOADomainEvent(headName, parentCoa.HeadCode, parentCoa.Type));
+            coa.RaiseDomainEvent(new CreateCOADomainEvent(headName, parentCoa.Id, parentCoa.HeadCode, parentCoa.Type));
 
             return coa;
         }
@@ -91,7 +95,8 @@ public sealed class Accounts : AggregateRoot
 
         try
         {
-            var coa = new Accounts(headCode, headName, isGl, type);
+            Guid id = Guid.NewGuid();
+            var coa = new Accounts(id, headCode, headName, isGl, type);
             coa.RaiseDomainEvent(new CreateFirstLevelCoaDomainEvent(coa.HeadName, coa.Type));
             return coa;
         }

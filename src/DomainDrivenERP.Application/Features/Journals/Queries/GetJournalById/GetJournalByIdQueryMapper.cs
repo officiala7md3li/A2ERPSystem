@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +24,8 @@ internal class GetJournalByIdQueryMapper : Profile
         CreateMap<Transaction, TransactionDto>()
             .ForMember(dest => dest.Debit, opt => opt.MapFrom(src => src.Debit))
             .ForMember(dest => dest.Credit, opt => opt.MapFrom(src => src.Credit))
+            .ForMember(dest => dest.AccountId, opt => opt.MapFrom(src => src.COAId))
             .ForMember(dest => dest.AccountName, opt => opt.MapFrom(src => src.COA.HeadName))
-            .ForMember(dest => dest.AccountHeadCode, opt => opt.MapFrom(src => src.COAId));
+            .ForMember(dest => dest.AccountHeadCode, opt => opt.MapFrom(src => src.COA.HeadCode));
     }
 }

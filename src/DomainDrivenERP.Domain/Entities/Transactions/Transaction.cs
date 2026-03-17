@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +15,11 @@ public sealed class Transaction : BaseEntity
     {
 
     }
-    internal Transaction(Guid transactionId, Guid journalId, string cOAId, double debit, double credit)
+    internal Transaction(Guid transactionId, Guid journalId, Guid cOAId, double debit, double credit)
     {
         Guard.Against.NullOrWhiteSpace(transactionId.ToString(), nameof(transactionId));
         Guard.Against.NullOrWhiteSpace(journalId.ToString(), nameof(journalId));
-        Guard.Against.NullOrWhiteSpace(cOAId, nameof(cOAId));
+        Guard.Against.Null(cOAId, nameof(cOAId));
         Guard.Against.NumberNegativeOrZero(debit, nameof(debit));
         Guard.Against.NumberNegativeOrZero(credit, nameof(credit));
 
@@ -33,7 +33,7 @@ public sealed class Transaction : BaseEntity
     public Guid TransactionId { get; private set; }
     public Guid JournalId { get; private set; }
     public Journal Journal { get; private set; }
-    public string COAId { get; private set; }
+    public Guid COAId { get; private set; }
     public Accounts COA { get; private set; }
     public double Debit { get; private set; }
     public double Credit { get; private set; }

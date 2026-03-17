@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +15,10 @@ internal sealed class COAConfiguration : IEntityTypeConfiguration<Accounts>
     {
         builder.ToTable(TableNames.Accounts);
 
-        builder.Ignore(c => c.Id);
+        builder.HasKey(c => c.Id);
 
-        builder.HasKey(c => c.HeadCode);
+        builder.HasIndex(c => c.HeadCode)
+            .IsUnique();
 
         builder.Property(c => c.HeadCode)
             .IsRequired();
@@ -27,7 +28,7 @@ internal sealed class COAConfiguration : IEntityTypeConfiguration<Accounts>
 
         builder.HasMany(c => c.ChildAccounts)
             .WithOne(c => c.ParentAccount)
-            .HasForeignKey(c => c.ParentHeadCode)
+            .HasForeignKey(c => c.ParentAccountId)
             .IsRequired(false);
 
         builder.HasMany(c => c.Transactions)

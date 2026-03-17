@@ -1,0 +1,95 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-4">Welcome to Domain Driven ERP</h1>
+        <p class="lead">Manage your business operations efficiently with our comprehensive ERP system.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-primary">
+            <div class="card-body text-center">
+                <i class="fas fa-box fa-3x text-primary mb-3"></i>
+                <h5 class="card-title">Products</h5>
+                <p class="card-text">Manage your product catalog, inventory, and pricing.</p>
+                <a asp-controller="Products" asp-action="Index" class="btn btn-primary">
+                    <i class="fas fa-arrow-right"></i> Manage Products
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-success">
+            <div class="card-body text-center">
+                <i class="fas fa-shopping-cart fa-3x text-success mb-3"></i>
+                <h5 class="card-title">Orders</h5>
+                <p class="card-text">Track and manage customer orders and fulfillment.</p>
+                <a asp-controller="Orders" asp-action="Index" class="btn btn-success">
+                    <i class="fas fa-arrow-right"></i> Manage Orders
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 border-info">
+            <div class="card-body text-center">
+                <i class="fas fa-users fa-3x text-info mb-3"></i>
+                <h5 class="card-title">Customers</h5>
+                <p class="card-text">Maintain customer relationships and contact information.</p>
+                <a asp-controller="Customers" asp-action="Index" class="btn btn-info">
+                    <i class="fas fa-arrow-right"></i> Manage Customers
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-chart-line"></i> Quick Stats</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-4">
+                        <h3 class="text-primary">0</h3>
+                        <small class="text-muted">Products</small>
+                    </div>
+                    <div class="col-4">
+                        <h3 class="text-success">0</h3>
+                        <small class="text-muted">Orders</small>
+                    </div>
+                    <div class="col-4">
+                        <h3 class="text-info">0</h3>
+                        <small class="text-muted">Customers</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6 mb-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="fas fa-plus-circle"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a asp-controller="Products" asp-action="Create" class="btn btn-outline-primary">
+                        <i class="fas fa-plus"></i> Add New Product
+                    </a>
+                    <a asp-controller="Orders" asp-action="Create" class="btn btn-outline-success">
+                        <i class="fas fa-plus"></i> Create New Order
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

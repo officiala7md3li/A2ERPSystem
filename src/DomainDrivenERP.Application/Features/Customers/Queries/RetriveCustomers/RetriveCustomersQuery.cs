@@ -1,6 +1,8 @@
 ﻿using DomainDrivenERP.Application.Abstractions.Messaging;
 using DomainDrivenERP.Domain.Entities.Customers;
 
+namespace DomainDrivenERP.Application.Features.Customers.Queries.RetriveCustomers;
+
 public class RetriveCustomersQuery : IListQuery<Customer>
 {
     public int? Page { get; }

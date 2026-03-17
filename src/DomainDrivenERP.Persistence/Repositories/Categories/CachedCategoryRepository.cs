@@ -49,6 +49,14 @@ internal class CachedCategoryRepository : ICategoryRepository
             cancellationToken);
     }
 
+    public async Task<CustomList<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken = default)
+    {
+        string key = "allCategories";
+        return await _cacheService.GetOrSetAsync(key,
+            async () => await _decorated.GetAllCategoriesAsync(cancellationToken),
+            cancellationToken);
+    }
+
     public async Task UpdateAsync(Category value, CancellationToken cancellationToken = default)
     {
         await _decorated.UpdateAsync(value, cancellationToken);

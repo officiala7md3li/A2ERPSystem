@@ -1,0 +1,49 @@
+### Create Categories for Testing
+
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Electronics"
+}
+
+###
+
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Clothing"
+}
+
+###
+
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Books"
+}
+
+###
+
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Home & Garden"
+}
+
+###
+
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Sports & Outdoors"
+}
+
+###
+
+GET https://localhost:7001/api/v1/categories
+Content-Type: application/json

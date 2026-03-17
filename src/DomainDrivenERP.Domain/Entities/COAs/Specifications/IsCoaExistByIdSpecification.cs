@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +8,9 @@ using DomainDrivenERP.Domain.Shared.Specifications;
 namespace DomainDrivenERP.Domain.Entities.COAs.Specifications;
 public static class IsCoaExistByIdSpecification
 {
-    public static BaseSpecification<Accounts> IsCoaExistByIdSpec(string coaId)
+    public static BaseSpecification<Accounts> IsCoaExistByIdSpec(Guid coaId)
     {
-        var spec = new BaseSpecification<Accounts>(a => a.HeadCode == coaId);
+        var spec = new BaseSpecification<Accounts>(a => a.Id == coaId);
         return spec;
     }
 }

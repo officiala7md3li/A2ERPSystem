@@ -1,0 +1,81 @@
+### Test Category Creation API
+
+# First, test if the API is running
+GET https://localhost:7001/api/v1/categories
+Accept: application/json
+
+###
+
+# Create Electronics category
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Electronics"
+}
+
+###
+
+# Create Clothing category
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Clothing"
+}
+
+###
+
+# Create Books category
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Books"
+}
+
+###
+
+# Create Home & Garden category
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Home & Garden"
+}
+
+###
+
+# Create Sports & Outdoors category
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Sports & Outdoors"
+}
+
+###
+
+# Get all categories to verify they were created
+GET https://localhost:7001/api/v1/categories
+Accept: application/json
+
+###
+
+# Test with invalid data (empty name)
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": ""
+}
+
+###
+
+# Test with duplicate name
+POST https://localhost:7001/api/v1/categories/create
+Content-Type: application/json
+
+{
+  "name": "Electronics"
+}

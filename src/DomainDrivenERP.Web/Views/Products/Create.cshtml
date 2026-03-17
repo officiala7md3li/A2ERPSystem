@@ -1,0 +1,240 @@
+@model DomainDrivenERP.Web.Models.Products.AddProductRequest
+@{
+    ViewData["Title"] = "Create Product";
+}
+
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Create New Product</h2>
+            <p class="text-secondary mb-0">Add a new product to your inventory</p>
+        </div>
+        <a asp-action="Index" class="btn btn-ghost">
+            <i class="fas fa-arrow-left"></i>
+            Back to Products
+        </a>
+    </div>
+
+    <!-- Main Form -->
+    <div class="row">
+        <div class="col-lg-8 col-xl-6">
+            <div class="card">
+                <div class="card-body">
+                    <form asp-action="Create" method="post" class="needs-validation" novalidate>
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger mb-4" role="alert">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <strong>Please fix the following errors:</strong>
+                                </div>
+                                <div asp-validation-summary="All" class="mb-0"></div>
+                            </div>
+                        }
+
+                        <!-- Product Name & SKU -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="ProductName" class="form-label floating-label"></label>
+                                    <input asp-for="ProductName" class="form-control" placeholder="Enter product name" required />
+                                    <span asp-validation-for="ProductName" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Sku" class="form-label floating-label"></label>
+                                    <input asp-for="Sku" class="form-control" placeholder="Enter SKU (e.g., PROD-001)" required />
+                                    <span asp-validation-for="Sku" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price & Currency & Stock -->
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Amount" class="form-label floating-label"></label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input asp-for="Amount" class="form-control" placeholder="0.00" step="0.01" min="0.01" required />
+                                    </div>
+                                    <span asp-validation-for="Amount" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="Currency" class="form-label floating-label"></label>
+                                    <select asp-for="Currency" class="form-control" required>
+                                        <option value="">Select Currency</option>
+                                        <option value="USD" selected>USD - US Dollar</option>
+                                        <option value="EUR">EUR - Euro</option>
+                                        <option value="GBP">GBP - British Pound</option>
+                                        <option value="CAD">CAD - Canadian Dollar</option>
+                                    </select>
+                                    <span asp-validation-for="Currency" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label asp-for="StockQuantity" class="form-label floating-label"></label>
+                                    <input asp-for="StockQuantity" class="form-control" placeholder="0" min="0" required />
+                                    <span asp-validation-for="StockQuantity" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Model & Category -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Model" class="form-label floating-label"></label>
+                                    <input asp-for="Model" class="form-control" placeholder="Enter product model" required />
+                                    <span asp-validation-for="Model" class="text-danger small"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="CategoryId" class="form-label floating-label"></label>
+                                    <select asp-for="CategoryId" class="form-control" required>
+                                        <option value="">Select a category</option>
+                                        @if (ViewBag.Categories != null)
+                                        {
+                                            @foreach (var category in ViewBag.Categories)
+                                            {
+                                                <option value="@category.Id">@category.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                    <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Details -->
+                        <div class="form-group mb-4">
+                            <label asp-for="Details" class="form-label floating-label"></label>
+                            <textarea asp-for="Details" class="form-control" rows="4" placeholder="Enter detailed product description, features, specifications..." required></textarea>
+                            <span asp-validation-for="Details" class="text-danger small"></span>
+                            <div class="form-text">Provide comprehensive details about the product including features, specifications, and usage instructions.</div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="d-flex justify-content-between align-items-center pt-3" style="border-top: 1px solid var(--border-light);">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-times"></i>
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-plus"></i>
+                                Create Product
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Panel -->
+        <div class="col-lg-4 col-xl-6">
+            <div class="card glass">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">
+                        <i class="fas fa-info-circle text-primary"></i>
+                        Product Creation Tips
+                    </h5>
+
+                    <div class="mb-3">
+                        <h6 class="text-primary">Product Name</h6>
+                        <p class="small text-secondary mb-2">Use a clear, descriptive name that customers will easily understand.</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6 class="text-primary">SKU (Stock Keeping Unit)</h6>
+                        <p class="small text-secondary mb-2">Create a unique identifier for inventory tracking. Example: ELEC-LAP-001</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6 class="text-primary">Pricing</h6>
+                        <p class="small text-secondary mb-2">Set competitive prices based on market research and cost analysis.</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6 class="text-primary">Stock Quantity</h6>
+                        <p class="small text-secondary mb-2">Enter the current available inventory count.</p>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-lightbulb"></i>
+                        <strong>Pro Tip:</strong> Complete product details help with searchability and customer decision-making.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        // Enhanced form validation and UX
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('input, select, textarea');
+
+            // Add real-time validation
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('is-invalid')) {
+                        validateField(this);
+                    }
+                });
+            });
+
+            function validateField(field) {
+                const isValid = field.checkValidity();
+                field.classList.toggle('is-valid', isValid && field.value.trim() !== '');
+                field.classList.toggle('is-invalid', !isValid);
+            }
+
+            // Auto-generate SKU suggestion
+            const productNameInput = document.querySelector('#ProductName');
+            const skuInput = document.querySelector('#Sku');
+
+            productNameInput?.addEventListener('input', function() {
+                if (!skuInput.value) {
+                    const suggestion = generateSKU(this.value);
+                    skuInput.placeholder = `Suggested: ${suggestion}`;
+                }
+            });
+
+            function generateSKU(productName) {
+                return productName
+                    .toUpperCase()
+                    .replace(/[^A-Z0-9]/g, '')
+                    .substring(0, 8) + '-001';
+            }
+
+            // Currency symbol update
+            const currencySelect = document.querySelector('#Currency');
+            const amountInput = document.querySelector('#Amount');
+            const currencySymbol = document.querySelector('.input-group-text');
+
+            currencySelect?.addEventListener('change', function() {
+                const symbols = {
+                    'USD': '$',
+                    'EUR': '€',
+                    'GBP': '£',
+                    'CAD': 'C$'
+                };
+                currencySymbol.textContent = symbols[this.value] || '$';
+            });
+        });
+    </script>
+}

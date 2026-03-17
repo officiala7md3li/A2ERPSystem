@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,7 +36,7 @@ public sealed class AccountsController : AppControllerBase
         return CustomResult(result);
     }
     [HttpGet("Accounts-tree/{id}")]
-    public async Task<IActionResult> GetCoaWithChildrens(string id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetCoaWithChildrens(Guid id, CancellationToken cancellationToken)
     {
         Result<CoaWithChildrenDto> result = await Sender.Send(new GetCoaWithChildrensQuery(id), cancellationToken);
         return CustomResult(result);

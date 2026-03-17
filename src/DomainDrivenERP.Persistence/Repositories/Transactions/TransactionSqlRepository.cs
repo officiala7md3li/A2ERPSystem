@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,9 +26,9 @@ internal class TransactionSqlRepository : ITransactionRepository
     {
         await using SqlConnection sqlConnection = _connectionFactory.SqlConnection();
         const string sql = @"
-        SELECT t.TransactionId, t.JournalId, t.Debit, t.Credit, c.HeadName AS AccountName, c.HeadCode AS AccountHeadCode
+        SELECT t.TransactionId, t.JournalId, t.Debit, t.Credit, c.Id AS AccountId, c.HeadName AS AccountName, c.HeadCode AS AccountHeadCode
         FROM Transactions t 
-        INNER JOIN Accounts c ON t.COAId = c.HeadCode 
+        INNER JOIN Accounts c ON t.COAId = c.Id 
         INNER JOIN Journals j ON t.JournalId = j.Id
         WHERE c.HeadName = @AccountName   
         AND (@StartDate IS NULL OR j.JournalDate >= @StartDate)
@@ -46,11 +46,11 @@ internal class TransactionSqlRepository : ITransactionRepository
     {
         await using SqlConnection sqlConnection = _connectionFactory.SqlConnection();
         const string sql = @"
-            SELECT t.TransactionId, t.JournalId, t.Debit, t.Credit, c.HeadName AS AccountName, c.HeadCode AS AccountHeadCode
+            SELECT t.TransactionId, t.JournalId, t.Debit, t.Credit, c.Id AS AccountId, c.HeadName AS AccountName, c.HeadCode AS AccountHeadCode
             FROM Transactions t 
-            INNER JOIN Accounts c ON t.COAId = c.HeadCode 
+            INNER JOIN Accounts c ON t.COAId = c.Id 
             INNER JOIN Journals j ON t.JournalId = j.Id
-            WHERE t.COAId = @AccountHeadCode
+            WHERE c.HeadCode = @AccountHeadCode
             AND (@StartDate IS NULL OR j.JournalDate >= @StartDate)
             AND (@EndDate IS NULL OR j.JournalDate <= @EndDate)";
 

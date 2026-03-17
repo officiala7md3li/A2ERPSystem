@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -86,7 +86,7 @@ public sealed class Journal : AggregateRoot
             var transaction = new Transaction(
                 transactionId: Guid.NewGuid(),
                 journalId: Id,
-                cOAId: dto.AccountHeadCode,
+                cOAId: dto.AccountId,
                 debit: dto.Debit,
                 credit: dto.Credit);
             _transactions.Add(transaction);

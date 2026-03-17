@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -28,9 +28,9 @@ internal sealed class CoaRepository : ICoaRepository
         await _context.Set<Accounts>().AddAsync(cOA);
     }
 
-    public async Task<Accounts?> GetCoaById(string coaId, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaById(Guid coaId, CancellationToken cancellationToken = default)
     {
-        return await _context.Set<Accounts>().FirstOrDefaultAsync(a => a.HeadCode == coaId);
+        return await _context.Set<Accounts>().FirstOrDefaultAsync(a => a.Id == coaId);
     }
 
     public async Task<Accounts?> GetCoaByName(string coaParentName, CancellationToken cancellationToken = default)
@@ -38,15 +38,15 @@ internal sealed class CoaRepository : ICoaRepository
         return await _context.Set<Accounts>().Include(a => a.ChildAccounts).FirstOrDefaultAsync(a => a.HeadName == coaParentName);
     }
 
-    public async Task<List<Accounts>?> GetCoaChilds(string parentCoaId, CancellationToken cancellationToken = default)
+    public async Task<List<Accounts>?> GetCoaChilds(Guid parentAccountId, CancellationToken cancellationToken = default)
     {
-        return await _context.Set<Accounts>().Where(a => a.ParentHeadCode == parentCoaId).ToListAsync();
+        return await _context.Set<Accounts>().Where(a => a.ParentAccountId == parentAccountId).ToListAsync();
     }
 
-    public async Task<Accounts?> GetCoaWithChildren(string coaId, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaWithChildren(Guid coaId, CancellationToken cancellationToken = default)
     {
         Accounts? coa = await _context.Set<Accounts>()
-            .FirstOrDefaultAsync(c => c.HeadCode == coaId);
+            .FirstOrDefaultAsync(c => c.Id == coaId);
 
         if (coa != null)
         {
@@ -55,9 +55,9 @@ internal sealed class CoaRepository : ICoaRepository
 
         return coa;
     }
-    public async Task<bool> IsCoaExist(string coaId, CancellationToken cancellationToken = default)
+    public async Task<bool> IsCoaExist(Guid coaId, CancellationToken cancellationToken = default)
     {
-        return await _context.Set<Accounts>().AnyAsync(coa => coa.HeadCode == coaId, cancellationToken);
+        return await _context.Set<Accounts>().AnyAsync(coa => coa.Id == coaId, cancellationToken);
     }
 
     public async Task<bool> IsCoaExist(string coaName, string coaParentName, CancellationToken cancellationToken = default)
@@ -77,19 +77,19 @@ internal sealed class CoaRepository : ICoaRepository
         return await _context.Set<Accounts>().Where(a => a.HeadLevel == 1).MaxAsync(coa => coa.HeadCode);
     }
 
-    public async Task<string?> GetByAccountName(string accountName, CancellationToken cancellationToken = default)
+    public async Task<Guid?> GetByAccountName(string accountName, CancellationToken cancellationToken = default)
     {
         return await _context.Set<Accounts>()
                              .Where(coa => coa.HeadName == accountName)
-                             .Select(coa => coa.HeadCode)
+                             .Select(coa => (Guid?)coa.Id)
                              .FirstOrDefaultAsync();
     }
 
-    public async Task<string?> GetByAccountHeadCode(string accountHeadCode, CancellationToken cancellationToken = default)
+    public async Task<Guid?> GetByAccountHeadCode(string accountHeadCode, CancellationToken cancellationToken = default)
     {
         return await _context.Set<Accounts>()
                              .Where(coa => coa.HeadCode == accountHeadCode)
-                             .Select(coa => coa.HeadCode)
+                             .Select(coa => (Guid?)coa.Id)
                              .FirstOrDefaultAsync();
     }
 

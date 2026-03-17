@@ -33,7 +33,8 @@ internal sealed class CustomerRespository : ICustomerRespository
 
     public async Task<CustomList<Customer>?> GetAllCustomers(CancellationToken cancellationToken = default)
     {
-        return _context.Set<Customer>().ToCustomList(); // TODO Fix the Async
+        List<Customer> customers = await _context.Set<Customer>().ToListAsync(cancellationToken);
+        return await customers.ToCustomListAsync();
     }
 
     public async Task<Customer?> GetByIdAsync(string CustomerId, CancellationToken cancellationToken = default)

@@ -13,5 +13,6 @@ public interface ICategoryRepository
     Task<Category?> GetByIdAsync(Guid categoryId, CancellationToken cancellationToken = default);
     Task<Category?> GetByNameAsync(string name, CancellationToken cancellationToken = default);
     Task<CustomList<Category>> GetCategoriesByDateRangeAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken = default);
+    Task<CustomList<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken = default);
     Task UpdateAsync(Category value, CancellationToken cancellationToken = default);
 }

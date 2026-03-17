@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +8,10 @@ using DomainDrivenERP.Domain.Enums;
 namespace DomainDrivenERP.Domain.Dtos;
 public class CoaWithChildrenDto
 {
+    public Guid Id { get; set; }
     public string HeadCode { get; set; }
     public string HeadName { get; set; }
+    public Guid? ParentAccountId { get; set; }
     public string ParentHeadCode { get; set; }
     public int HeadLevel { get; set; }
     public bool IsActive { get; set; }

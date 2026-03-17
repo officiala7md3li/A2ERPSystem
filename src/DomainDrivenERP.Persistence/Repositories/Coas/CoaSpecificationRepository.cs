@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,23 +26,23 @@ internal class CoaSpecificationRepository : ICoaRepository
         await _unitOfWork.Repository<Accounts>().AddAsync(cOA, cancellationToken);
     }
 
-    public async Task<string?> GetByAccountHeadCode(string accountHeadCode, CancellationToken cancellationToken = default)
+    public async Task<Guid?> GetByAccountHeadCode(string accountHeadCode, CancellationToken cancellationToken = default)
     {
         BaseSpecification<Accounts> spec = GetCOAByHeadCodeSpecification.GetCOAByHeadCodeSpec(accountHeadCode);
         Accounts? result = await _unitOfWork.Repository<Accounts>().FirstOrDefaultAsync(spec, false, cancellationToken);
-        return result?.HeadCode;
+        return result?.Id;
     }
 
-    public async Task<string?> GetByAccountName(string accountName, CancellationToken cancellationToken = default)
+    public async Task<Guid?> GetByAccountName(string accountName, CancellationToken cancellationToken = default)
     {
         BaseSpecification<Accounts> spec = GetCOAByAccountNameSpecification.GetCOAByAccountNameSpec(accountName);
         Accounts? result = await _unitOfWork.Repository<Accounts>().FirstOrDefaultAsync(spec, false, cancellationToken);
-        return result?.HeadCode;
+        return result?.Id;
     }
 
-    public async Task<Accounts?> GetCoaById(string coaId, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaById(Guid coaId, CancellationToken cancellationToken = default)
     {
-        BaseSpecification<Accounts> spec = GetCOAByHeadCodeSpecification.GetCOAByHeadCodeSpec(coaId);
+        BaseSpecification<Accounts> spec = IsCoaExistByIdSpecification.IsCoaExistByIdSpec(coaId);
         return await _unitOfWork.Repository<Accounts>().FirstOrDefaultAsync(spec, false, cancellationToken);
     }
 
@@ -52,13 +52,13 @@ internal class CoaSpecificationRepository : ICoaRepository
         return await _unitOfWork.Repository<Accounts>().FirstOrDefaultAsync(spec, false, cancellationToken);
     }
 
-    public async Task<List<Accounts>?> GetCoaChilds(string parentCoaId, CancellationToken cancellationToken = default)
+    public async Task<List<Accounts>?> GetCoaChilds(Guid parentAccountId, CancellationToken cancellationToken = default)
     {
-        BaseSpecification<Accounts> spec = GetCOAChildsSpecification.GetCOAChildsSpec(parentCoaId);
+        BaseSpecification<Accounts> spec = GetCOAChildsSpecification.GetCOAChildsSpec(parentAccountId);
         return (List<Accounts>?)await _unitOfWork.Repository<Accounts>().ListAsync(spec, false, cancellationToken);
     }
 
-    public async Task<Accounts?> GetCoaWithChildren(string coaId, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaWithChildren(Guid coaId, CancellationToken cancellationToken = default)
     {
         BaseSpecification<Accounts> spec = GetCOAWithChildrenSpecification.GetCOAWithChildrenSpec(coaId);
         return await _unitOfWork.Repository<Accounts>().FirstOrDefaultAsync(spec, false, cancellationToken);
@@ -71,7 +71,7 @@ internal class CoaSpecificationRepository : ICoaRepository
         return result?.HeadCode;
     }
 
-    public async Task<bool> IsCoaExist(string coaId, CancellationToken cancellationToken = default)
+    public async Task<bool> IsCoaExist(Guid coaId, CancellationToken cancellationToken = default)
     {
         BaseSpecification<Accounts> spec = IsCoaExistByIdSpecification.IsCoaExistByIdSpec(coaId);
         return await _unitOfWork.Repository<Accounts>().AnyAsync(spec, false, cancellationToken);

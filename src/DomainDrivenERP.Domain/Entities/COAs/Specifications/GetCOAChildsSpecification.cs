@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +8,9 @@ using DomainDrivenERP.Domain.Shared.Specifications;
 namespace DomainDrivenERP.Domain.Entities.COAs.Specifications;
 public class GetCOAChildsSpecification
 {
-    public static BaseSpecification<Accounts> GetCOAChildsSpec(string parentCoaId)
+    public static BaseSpecification<Accounts> GetCOAChildsSpec(Guid parentAccountId)
     {
-        var spec = new BaseSpecification<Accounts>(a => a.ParentHeadCode == parentCoaId);
+        var spec = new BaseSpecification<Accounts>(a => a.ParentAccountId == parentAccountId);
         return spec;
     }
 }

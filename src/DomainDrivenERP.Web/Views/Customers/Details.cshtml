@@ -1,0 +1,175 @@
+@model DomainDrivenERP.Web.Models.Customers.Customer
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<div class="container-fluid">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="mb-1">Customer Details</h2>
+            <p class="text-secondary mb-0">View and manage customer information</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Index" class="btn btn-ghost">
+                <i class="fas fa-arrow-left"></i>
+                Back to Customers
+            </a>
+            <button class="btn btn-outline-primary">
+                <i class="fas fa-edit"></i>
+                Edit Customer
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Customer Information -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-user text-primary"></i>
+                        Customer Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-secondary">First Name</label>
+                            <div class="fw-medium">@Model.FirstName</div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-secondary">Last Name</label>
+                            <div class="fw-medium">@Model.LastName</div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-secondary">Email Address</label>
+                            <div class="fw-medium">
+                                <a href="mailto:@Model.Email" class="text-decoration-none">@Model.Email</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-secondary">Phone Number</label>
+                            <div class="fw-medium">
+                                <a href="tel:@Model.Phone" class="text-decoration-none">@Model.Phone</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label text-secondary">Customer ID</label>
+                            <div class="fw-medium font-monospace">@Model.Id</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Activity -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-history text-primary"></i>
+                        Recent Activity
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center py-4">
+                        <i class="fas fa-clock fa-2x text-muted mb-3"></i>
+                        <p class="text-muted">No recent activity to display</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Customer Stats -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-chart-bar text-primary"></i>
+                        Customer Stats
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-6 mb-3">
+                            <div class="h4 mb-1">0</div>
+                            <div class="small text-secondary">Total Orders</div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="h4 mb-1">$0.00</div>
+                            <div class="small text-secondary">Total Spent</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="h4 mb-1">0</div>
+                            <div class="small text-secondary">Products Bought</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="h4 mb-1">@((DateTime.UtcNow - Model.CreatedOnUtc).Days)</div>
+                            <div class="small text-secondary">Days as Customer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Information -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-info-circle text-primary"></i>
+                        Account Information
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Member Since</label>
+                        <div class="fw-medium">@Model.CreatedOnUtc.ToString("MMMM dd, yyyy")</div>
+                    </div>
+                    @if (Model.ModifiedOnUtc.HasValue)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label text-secondary">Last Updated</label>
+                            <div class="fw-medium">@Model.ModifiedOnUtc.Value.ToString("MMMM dd, yyyy")</div>
+                        </div>
+                    }
+                    <div class="mb-3">
+                        <label class="form-label text-secondary">Status</label>
+                        <div>
+                            <span class="badge bg-success">Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-bolt text-primary"></i>
+                        Quick Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-envelope"></i>
+                            Send Email
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-phone"></i>
+                            Call Customer
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-shopping-cart"></i>
+                            Create Order
+                        </button>
+                        <hr>
+                        <button class="btn btn-outline-danger btn-sm">
+                            <i class="fas fa-ban"></i>
+                            Deactivate Account
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

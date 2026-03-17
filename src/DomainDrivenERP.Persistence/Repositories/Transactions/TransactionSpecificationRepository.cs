@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +31,7 @@ internal class TransactionSpecificationRepository : ITransactionRepository
             JournalId = t.JournalId,
             Debit = t.Debit,
             Credit = t.Credit,
+            AccountId = t.COAId,
             AccountName = t.COA.HeadName,
             AccountHeadCode = t.COA.HeadCode
         }).ToCustomList();
@@ -46,6 +47,7 @@ internal class TransactionSpecificationRepository : ITransactionRepository
             JournalId = t.JournalId,
             Debit = t.Debit,
             Credit = t.Credit,
+            AccountId = t.COAId,
             AccountName = t.COA.HeadName,
             AccountHeadCode = t.COA.HeadCode
         }).ToCustomList();

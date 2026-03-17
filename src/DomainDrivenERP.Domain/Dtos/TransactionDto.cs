@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,4 +11,5 @@ public class TransactionDto
     public double Credit { get; set; }
     public string? AccountName { get; set; }
     public string? AccountHeadCode { get; set; }
+    public Guid AccountId { get; set; }
 }

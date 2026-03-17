@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -24,14 +24,14 @@ internal class CoaSqlRepository : ICoaRepository
     public async Task CreateCoa(Accounts cOA, CancellationToken cancellationToken = default)
     {
         await _sqlConnection.ExecuteAsync(
-            "INSERT INTO Accounts (HeadCode, HeadName, HeadLevel, ParentHeadCode) VALUES (@HeadCode, @HeadName, @HeadLevel, @ParentHeadCode)",
+            "INSERT INTO Accounts (Id, HeadCode, HeadName, HeadLevel, ParentAccountId, ParentHeadCode) VALUES (@Id, @HeadCode, @HeadName, @HeadLevel, @ParentAccountId, @ParentHeadCode)",
             cOA);
     }
 
-    public async Task<Accounts?> GetCoaById(string coaId, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaById(Guid coaId, CancellationToken cancellationToken = default)
     {
         return await _sqlConnection.QueryFirstOrDefaultAsync<Accounts>(
-            "SELECT * FROM Accounts WHERE HeadCode = @CoaId",
+            "SELECT * FROM Accounts WHERE Id = @CoaId",
             new { CoaId = coaId });
     }
 
@@ -42,18 +42,18 @@ internal class CoaSqlRepository : ICoaRepository
             new { CoaParentName = coaParentName });
     }
 
-    public async Task<List<Accounts>?> GetCoaChilds(string parentCoaId, CancellationToken cancellationToken = default)
+    public async Task<List<Accounts>?> GetCoaChilds(Guid parentAccountId, CancellationToken cancellationToken = default)
     {
         return (await _sqlConnection.QueryAsync<Accounts>(
-            "SELECT * FROM Accounts WHERE ParentHeadCode = @ParentCoaId",
-            new { ParentCoaId = parentCoaId })).ToList();
+            "SELECT * FROM Accounts WHERE ParentAccountId = @ParentAccountId",
+            new { ParentAccountId = parentAccountId })).ToList();
     }
 
-    public async Task<Accounts?> GetCoaWithChildren(string coaId, CancellationToken cancellationToken = default)
+    public async Task<Accounts?> GetCoaWithChildren(Guid coaId, CancellationToken cancellationToken = default)
     {
-        var coaDictionary = new Dictionary<string, Accounts>();
+        var coaDictionary = new Dictionary<Guid, Accounts>();
         Accounts? coa = await _sqlConnection.QueryFirstOrDefaultAsync<Accounts>(
-            "SELECT * FROM Accounts WHERE HeadCode = @CoaId",
+            "SELECT * FROM Accounts WHERE Id = @CoaId",
             new { CoaId = coaId });
 
         if (coa != null)
@@ -65,17 +65,17 @@ internal class CoaSqlRepository : ICoaRepository
     }
 
 
-    public async Task<bool> IsCoaExist(string coaId, CancellationToken cancellationToken = default)
+    public async Task<bool> IsCoaExist(Guid coaId, CancellationToken cancellationToken = default)
     {
         return await _sqlConnection.ExecuteScalarAsync<bool>(
-            "SELECT TOP 1 1 FROM Accounts WHERE HeadCode = @CoaId",
+            "SELECT TOP 1 1 FROM Accounts WHERE Id = @CoaId",
             new { CoaId = coaId });
     }
 
     public async Task<bool> IsCoaExist(string coaName, string coaParentName, CancellationToken cancellationToken = default)
     {
         return await _sqlConnection.ExecuteScalarAsync<bool>(
-            "SELECT TOP 1 1 FROM Accounts c INNER JOIN COAS p ON c.ParentHeadCode = p.HeadCode WHERE c.HeadName = @CoaName AND p.HeadName = @CoaParentName",
+            "SELECT TOP 1 1 FROM Accounts c INNER JOIN Accounts p ON c.ParentAccountId = p.Id WHERE c.HeadName = @CoaName AND p.HeadName = @CoaParentName",
             new { CoaName = coaName, CoaParentName = coaParentName });
     }
 
@@ -92,31 +92,31 @@ internal class CoaSqlRepository : ICoaRepository
             "SELECT MAX(HeadCode) FROM Accounts WHERE HeadLevel = 1");
     }
 
-    public async Task<string?> GetByAccountName(string accountName, CancellationToken cancellationToken = default)
+    public async Task<Guid?> GetByAccountName(string accountName, CancellationToken cancellationToken = default)
     {
-        return await _sqlConnection.QueryFirstOrDefaultAsync<string>(
-            "SELECT HeadCode FROM Accounts WHERE HeadName = @AccountName",
+        return await _sqlConnection.QueryFirstOrDefaultAsync<Guid?>(
+            "SELECT Id FROM Accounts WHERE HeadName = @AccountName",
             new { AccountName = accountName });
     }
 
-    public async Task<string?> GetByAccountHeadCode(string accountHeadCode, CancellationToken cancellationToken = default)
+    public async Task<Guid?> GetByAccountHeadCode(string accountHeadCode, CancellationToken cancellationToken = default)
     {
-        return await _sqlConnection.QueryFirstOrDefaultAsync<string>(
-            "SELECT HeadCode FROM Accounts WHERE HeadCode = @AccountHeadCode",
+        return await _sqlConnection.QueryFirstOrDefaultAsync<Guid?>(
+            "SELECT Id FROM Accounts WHERE HeadCode = @AccountHeadCode",
             new { AccountHeadCode = accountHeadCode });
     }
 
-    private async Task FetchChildCOAs(IDbConnection connection, Dictionary<string, Accounts> coaDictionary, Accounts coa)
+    private async Task FetchChildCOAs(IDbConnection connection, Dictionary<Guid, Accounts> coaDictionary, Accounts coa)
     {
         IEnumerable<Accounts> childCOAs = await connection.QueryAsync<Accounts>(
-            "SELECT * FROM Accounts WHERE ParentHeadCode = @ParentHeadCode",
-            new { ParentHeadCode = coa.HeadCode });
+            "SELECT * FROM Accounts WHERE ParentAccountId = @ParentAccountId",
+            new { ParentAccountId = coa.Id });
 
         foreach (Accounts child in childCOAs)
         {
-            if (!coaDictionary.ContainsKey(child.HeadCode))
+            if (!coaDictionary.ContainsKey(child.Id))
             {
-                coaDictionary[child.HeadCode] = child;
+                coaDictionary[child.Id] = child;
                 await FetchChildCOAs(connection, coaDictionary, child);
             }
         }

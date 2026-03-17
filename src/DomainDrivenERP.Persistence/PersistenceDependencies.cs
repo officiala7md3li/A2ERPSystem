@@ -2,6 +2,7 @@ using DomainDrivenERP.Domain.Abstractions.Persistence.Repositories;
 using DomainDrivenERP.Persistence.BackgroundJobs;
 using DomainDrivenERP.Persistence.Caching;
 using DomainDrivenERP.Persistence.Clients;
+using DomainDrivenERP.Persistence.Configuration;
 using DomainDrivenERP.Persistence.Data;
 using DomainDrivenERP.Persistence.Idempotence;
 using DomainDrivenERP.Persistence.Interceptors;
@@ -19,6 +20,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Quartz;
 using DomainDrivenERP.Domain.Abstractions.Infrastructure;
 using DomainDrivenERP.Infrastructure.Services;
@@ -93,33 +95,137 @@ public static class PersistenceDependencies
         services.AddScoped<IJournalRepository, JournalSpecificationRepository>();
         services.AddScoped<ITransactionRepository, TransactionSpecificationRepository>();
 
-        // Caching
-        services.AddMemoryCache();
-        #region Another Caching  Ways
-        // services.AddScoped<CustomerRespository>();
-        // services.AddScoped<ICustomerRespository, CachedCustomerRepository>(); // First Way
-        // services.AddScoped<ICustomerRespository>(provider => // Second Way
-        // {
-        //    CustomerRespository? customerRespository = provider.GetService<CustomerRespository>();
-        //    return new CachedCustomerRepository(customerRespository,provider.GetService<IMemoryCache>());
-        // });
-        #endregion
-        services.Decorate<ICustomerRespository, CachedCustomerRepository>();
-        services.Decorate<IInvoiceRepository, CachedInvoiceRepository>();
-        services.Decorate<ICoaRepository, CachedCoaRepository>();
-        services.Decorate<IJournalRepository, CachedJournalRepository>();
-        services.Decorate<ITransactionRepository, CachedTransactionRepository>();
-        services.Decorate<IProductRepository, CachedProductRepository>();
-        services.Decorate<IOrderRepository, CachedOrderRepository>();
-        services.Decorate<ICategoryRepository, CachedCategoryRepository>();
-
-        services.AddStackExchangeRedisCache(redisOptions => {
-            string connectionString = configuration.GetConnectionString("Redis");
-            redisOptions.Configuration = connectionString;
-        });
-        services.AddSingleton<ICacheService, CacheService>();
+        // Configure caching based on settings
+        ConfigureCaching(services, configuration);
 
 
         return services;
+    }
+
+    private static void ConfigureCaching(IServiceCollection services, IConfiguration configuration)
+    {
+        // Read caching settings from configuration with defaults
+        var cachingSettings = new CachingSettings();
+        var cachingSection = configuration.GetSection(CachingSettings.SectionName);
+
+        // Simple configuration reading with defaults
+        bool.TryParse(cachingSection["EnableCaching"], out bool enableCaching);
+        bool.TryParse(cachingSection["EnableRedisCache"], out bool enableRedisCache);
+        bool.TryParse(cachingSection["EnableMemoryCache"], out bool enableMemoryCache);
+        int.TryParse(cachingSection["DefaultCacheExpirationMinutes"], out int cacheExpiration);
+
+        cachingSettings.EnableCaching = enableCaching;
+        cachingSettings.EnableRedisCache = enableRedisCache;
+        cachingSettings.EnableMemoryCache = enableMemoryCache || true; // Default to true
+        cachingSettings.DefaultCacheExpirationMinutes = cacheExpiration > 0 ? cacheExpiration : 30;
+
+        // Read repository-specific settings
+        var repoSection = cachingSection.GetSection("Repositories");
+        bool.TryParse(repoSection["EnableCustomerCaching"], out bool enableCustomerCaching);
+        bool.TryParse(repoSection["EnableProductCaching"], out bool enableProductCaching);
+        bool.TryParse(repoSection["EnableOrderCaching"], out bool enableOrderCaching);
+        bool.TryParse(repoSection["EnableInvoiceCaching"], out bool enableInvoiceCaching);
+        bool.TryParse(repoSection["EnableCoaCaching"], out bool enableCoaCaching);
+        bool.TryParse(repoSection["EnableJournalCaching"], out bool enableJournalCaching);
+        bool.TryParse(repoSection["EnableTransactionCaching"], out bool enableTransactionCaching);
+        bool.TryParse(repoSection["EnableCategoryCaching"], out bool enableCategoryCaching);
+
+        cachingSettings.Repositories.EnableCustomerCaching = enableCustomerCaching;
+        cachingSettings.Repositories.EnableProductCaching = enableProductCaching;
+        cachingSettings.Repositories.EnableOrderCaching = enableOrderCaching;
+        cachingSettings.Repositories.EnableInvoiceCaching = enableInvoiceCaching;
+        cachingSettings.Repositories.EnableCoaCaching = enableCoaCaching;
+        cachingSettings.Repositories.EnableJournalCaching = enableJournalCaching;
+        cachingSettings.Repositories.EnableTransactionCaching = enableTransactionCaching;
+        cachingSettings.Repositories.EnableCategoryCaching = enableCategoryCaching;
+
+        // Register the settings for dependency injection
+        services.AddSingleton(cachingSettings);
+
+        // Always add memory cache as it's lightweight
+        services.AddMemoryCache();
+
+        // Configure distributed cache service based on settings
+        if (cachingSettings.EnableCaching && cachingSettings.EnableRedisCache)
+        {
+            try
+            {
+                // Add Redis cache if enabled and connection string exists
+                string? redisConnectionString = configuration.GetConnectionString("Redis");
+                if (!string.IsNullOrEmpty(redisConnectionString))
+                {
+                    services.AddStackExchangeRedisCache(redisOptions =>
+                    {
+                        redisOptions.Configuration = redisConnectionString;
+                    });
+                }
+                else
+                {
+                    // Fallback to distributed memory cache if Redis connection string is missing
+                    services.AddDistributedMemoryCache();
+                }
+            }
+            catch
+            {
+                // Fallback to distributed memory cache if Redis configuration fails
+                services.AddDistributedMemoryCache();
+            }
+        }
+        else
+        {
+            // Use distributed memory cache when Redis is disabled or caching is disabled
+            services.AddDistributedMemoryCache();
+        }
+
+        // Always register cache service (it will use the configured IDistributedCache)
+        services.AddSingleton<ICacheService, CacheService>();
+
+        // Apply caching decorators only if caching is enabled
+        if (cachingSettings.EnableCaching)
+        {
+            // Apply caching decorators based on individual repository settings
+            if (cachingSettings.Repositories.EnableCustomerCaching)
+            {
+                services.Decorate<ICustomerRespository, CachedCustomerRepository>();
+            }
+
+            if (cachingSettings.Repositories.EnableInvoiceCaching)
+            {
+                services.Decorate<IInvoiceRepository, CachedInvoiceRepository>();
+            }
+
+            if (cachingSettings.Repositories.EnableCoaCaching)
+            {
+                services.Decorate<ICoaRepository, CachedCoaRepository>();
+            }
+
+            if (cachingSettings.Repositories.EnableJournalCaching)
+            {
+                services.Decorate<IJournalRepository, CachedJournalRepository>();
+            }
+
+            if (cachingSettings.Repositories.EnableTransactionCaching)
+            {
+                services.Decorate<ITransactionRepository, CachedTransactionRepository>();
+            }
+
+            if (cachingSettings.Repositories.EnableProductCaching)
+            {
+                services.Decorate<IProductRepository, CachedProductRepository>();
+            }
+
+            if (cachingSettings.Repositories.EnableOrderCaching)
+            {
+                services.Decorate<IOrderRepository, CachedOrderRepository>();
+            }
+
+            if (cachingSettings.Repositories.EnableCategoryCaching)
+            {
+                services.Decorate<ICategoryRepository, CachedCategoryRepository>();
+            }
+
+            // Always enable localization caching as it's essential
+            services.Decorate<ILocalizationRepository, CachedLocalizationRepository>();
+        }
     }
 }
