@@ -24,11 +24,16 @@ namespace DomainDrivenERP.Persistence.Migrations
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.COAs.Accounts", b =>
                 {
-                    b.Property<string>("HeadCode")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Cancelled")
                         .HasColumnType("bit");
+
+                    b.Property<string>("HeadCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("HeadLevel")
                         .HasColumnType("int");
@@ -43,15 +48,22 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.Property<bool>("IsGl")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("ParentAccountId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("ParentHeadCode")
-                        .HasColumnType("nvarchar(450)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
-                    b.HasKey("HeadCode");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ParentHeadCode");
+                    b.HasIndex("HeadCode")
+                        .IsUnique();
+
+                    b.HasIndex("ParentAccountId");
 
                     b.ToTable("Accounts", (string)null);
                 });
@@ -78,6 +90,43 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Cancelled = false,
+                            CreatedOnUtc = new DateTime(2026, 3, 24, 0, 20, 32, 813, DateTimeKind.Utc).AddTicks(8254),
+                            Name = "Electronics"
+                        },
+                        new
+                        {
+                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
+                            Cancelled = false,
+                            CreatedOnUtc = new DateTime(2026, 3, 24, 0, 20, 32, 813, DateTimeKind.Utc).AddTicks(8258),
+                            Name = "Clothing"
+                        },
+                        new
+                        {
+                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
+                            Cancelled = false,
+                            CreatedOnUtc = new DateTime(2026, 3, 24, 0, 20, 32, 813, DateTimeKind.Utc).AddTicks(8259),
+                            Name = "Books"
+                        },
+                        new
+                        {
+                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
+                            Cancelled = false,
+                            CreatedOnUtc = new DateTime(2026, 3, 24, 0, 20, 32, 813, DateTimeKind.Utc).AddTicks(8260),
+                            Name = "Home & Garden"
+                        },
+                        new
+                        {
+                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
+                            Cancelled = false,
+                            CreatedOnUtc = new DateTime(2026, 3, 24, 0, 20, 32, 813, DateTimeKind.Utc).AddTicks(8260),
+                            Name = "Sports & Outdoors"
+                        });
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Customers.Customer", b =>
@@ -119,6 +168,251 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.ToTable("Customers", (string)null);
                 });
 
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.CreditNote", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("GrandTotal")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("NoteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("OriginalInvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PipelineSnapshot")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("SequenceNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("TotalTax")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("OriginalInvoiceId");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("SequenceNumber", "CompanyId")
+                        .IsUnique()
+                        .HasFilter("[SequenceNumber] IS NOT NULL");
+
+                    b.ToTable("CreditNotes", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.CustomerInvoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("GrandTotal")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime>("InvoiceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("InvoiceHiddenDiscountAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("InvoiceHiddenDiscountType")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("PipelineSnapshot")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PostedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SequenceNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("StackingMode")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("TaxOrderSetting")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<decimal>("TotalHiddenDiscount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("TotalInvoiceDiscount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("TotalLineDiscount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("TotalTax")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("InvoiceDate");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("SequenceNumber", "CompanyId")
+                        .IsUnique()
+                        .HasFilter("[SequenceNumber] IS NOT NULL");
+
+                    b.ToTable("CustomerInvoices", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.DebitNote", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("GrandTotal")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("NoteDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("OriginalInvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PipelineSnapshot")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("SequenceNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("TotalTax")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("OriginalInvoiceId");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("SequenceNumber", "CompanyId")
+                        .IsUnique()
+                        .HasFilter("[SequenceNumber] IS NOT NULL");
+
+                    b.ToTable("DebitNotes", (string)null);
+                });
+
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.Invoice", b =>
                 {
                     b.Property<Guid>("Id")
@@ -158,6 +452,298 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.HasIndex("CustomerId");
 
                     b.ToTable("Invoices", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.InvoiceLevelDiscount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ReferenceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("InvoiceLevelDiscounts", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.InvoiceLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("DiscountGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DiscountGroupSnapshot")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("HiddenDiscountAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("HiddenDiscountType")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDiscountOverridden")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsTaxOverridden")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Quantity")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Quantity");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("TaxGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TaxGroupSnapshot")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TotalDiscountAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("TotalTaxAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("UnitPrice")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("UnitPrice");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("InvoiceLines", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.LineDiscountBreakdown", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("DiscountAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid>("InvoiceLineId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ReferenceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceLineId");
+
+                    b.ToTable("LineDiscountBreakdowns", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.LineTaxBreakdown", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("InvoiceLineId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsWithholding")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<decimal>("TaxAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("TaxCode")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid>("TaxDefinitionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TaxName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceLineId");
+
+                    b.ToTable("LineTaxBreakdowns", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.VendorInvoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("GrandTotal")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime>("InvoiceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("InvoiceHiddenDiscountAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("InvoiceHiddenDiscountType")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("PipelineSnapshot")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("PostedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SequenceNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("StackingMode")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<string>("TaxOrderSetting")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<decimal>("TotalHiddenDiscount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("TotalInvoiceDiscount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("TotalLineDiscount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal>("TotalTax")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid>("VendorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("VendorInvoiceNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("InvoiceDate");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("VendorId");
+
+                    b.HasIndex("SequenceNumber", "CompanyId")
+                        .IsUnique()
+                        .HasFilter("[SequenceNumber] IS NOT NULL");
+
+                    b.HasIndex("VendorInvoiceNumber", "VendorId")
+                        .HasFilter("[VendorInvoiceNumber] IS NOT NULL");
+
+                    b.ToTable("VendorInvoices", (string)null);
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Journals.Journal", b =>
@@ -421,24 +1007,6 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LocalizationSettings", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b5daf939-7c28-4e4b-8e4f-3b23c2fb4c66"),
-                            AllowUserLanguageSelection = true,
-                            AutoDetectLanguage = true,
-                            CacheExpirationMinutes = 60,
-                            CacheTranslations = true,
-                            Cancelled = false,
-                            DefaultLanguageCode = "en",
-                            FallbackLanguageCode = "en",
-                            LoadAllLanguagesOnStartup = true,
-                            ResourceFileFormat = "json",
-                            ResourceFilePath = "Resources/Translations",
-                            ShowLanguageSelector = true,
-                            UseResourceKeys = false
-                        });
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Localization.TranslationAudit", b =>
@@ -721,8 +1289,8 @@ namespace DomainDrivenERP.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("COAId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("COAId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Cancelled")
                         .HasColumnType("bit");
@@ -743,6 +1311,34 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.HasIndex("JournalId");
 
                     b.ToTable("Transactions", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Persistence.Entities.SequenceCounter", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<long>("CounterValue")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Prefix")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("SequenceDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Prefix", "CompanyId", "SequenceDate")
+                        .IsUnique();
+
+                    b.ToTable("SequenceCounters", (string)null);
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Persistence.Outbox.OutboxMessage", b =>
@@ -790,7 +1386,7 @@ namespace DomainDrivenERP.Persistence.Migrations
                 {
                     b.HasOne("DomainDrivenERP.Domain.Entities.COAs.Accounts", "ParentAccount")
                         .WithMany("ChildAccounts")
-                        .HasForeignKey("ParentHeadCode");
+                        .HasForeignKey("ParentAccountId");
 
                     b.Navigation("ParentAccount");
                 });
@@ -800,6 +1396,66 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.HasOne("DomainDrivenERP.Domain.Entities.Customers.Customer", null)
                         .WithMany("Invoices")
                         .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.InvoiceLevelDiscount", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Invoices.CustomerInvoice", null)
+                        .WithMany("InvoiceDiscounts")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Invoices.VendorInvoice", null)
+                        .WithMany("InvoiceDiscounts")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.InvoiceLine", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Invoices.CreditNote", null)
+                        .WithMany("Lines")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Invoices.CustomerInvoice", null)
+                        .WithMany("Lines")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Invoices.DebitNote", null)
+                        .WithMany("Lines")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Invoices.VendorInvoice", null)
+                        .WithMany("Lines")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.LineDiscountBreakdown", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Invoices.InvoiceLine", null)
+                        .WithMany("DiscountBreakdowns")
+                        .HasForeignKey("InvoiceLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.LineTaxBreakdown", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Invoices.InvoiceLine", null)
+                        .WithMany("TaxBreakdowns")
+                        .HasForeignKey("InvoiceLineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -926,6 +1582,37 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.Navigation("Invoices");
 
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.CreditNote", b =>
+                {
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.CustomerInvoice", b =>
+                {
+                    b.Navigation("InvoiceDiscounts");
+
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.DebitNote", b =>
+                {
+                    b.Navigation("Lines");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.InvoiceLine", b =>
+                {
+                    b.Navigation("DiscountBreakdowns");
+
+                    b.Navigation("TaxBreakdowns");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.VendorInvoice", b =>
+                {
+                    b.Navigation("InvoiceDiscounts");
+
+                    b.Navigation("Lines");
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Journals.Journal", b =>

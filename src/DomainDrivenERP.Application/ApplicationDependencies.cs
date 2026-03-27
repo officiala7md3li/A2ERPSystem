@@ -1,4 +1,6 @@
-﻿using DomainDrivenERP.Application.Behaviors;
+using DomainDrivenERP.Application.Behaviors;
+using DomainDrivenERP.Application.Engines.DiscountEngine;
+using DomainDrivenERP.Application.Engines.SequenceEngine;
 using DomainDrivenERP.Application.Features.Customers.Queries.RetriveCustomer;
 using FluentValidation;
 using MediatR;
@@ -23,6 +25,11 @@ public static class ApplicationDependencies
 
         // Mapping Profiles
         services.AddAutoMapper(typeof(RetriveCustomerMapping));
+
+        // Engines
+        services.AddSingleton<DiscountResolver>();
+        services.AddScoped<ISequenceEngine, SequenceEngine>();
+
         return services;
     }
 }

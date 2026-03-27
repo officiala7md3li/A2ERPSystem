@@ -25,8 +25,14 @@ using Quartz;
 using DomainDrivenERP.Domain.Abstractions.Infrastructure;
 using DomainDrivenERP.Infrastructure.Services;
 using DomainDrivenERP.Persistence.Repositories.Localization;
+using DomainDrivenERP.Persistence.Repositories.CustomerInvoices;
+using DomainDrivenERP.Persistence.Repositories.VendorInvoices;
+using DomainDrivenERP.Persistence.Repositories.CreditNotes;
+using DomainDrivenERP.Persistence.Repositories.DebitNotes;
 using DomainDrivenERP.Domain.Abstractions.Persistence.Data;
 using DomainDrivenERP.Domain.Abstractions.Persistence.Caching;
+using DomainDrivenERP.Application.Engines.SequenceEngine;
+using DomainDrivenERP.Persistence.Repositories.Sequences;
 
 namespace DomainDrivenERP.Persistence;
 
@@ -95,9 +101,18 @@ public static class PersistenceDependencies
         services.AddScoped<IJournalRepository, JournalSpecificationRepository>();
         services.AddScoped<ITransactionRepository, TransactionSpecificationRepository>();
 
+
+        // ── New Invoice Repositories ────────────────────────────────
+        services.AddScoped<ICustomerInvoiceRepository, CustomerInvoiceRepository>();
+        services.AddScoped<IVendorInvoiceRepository, VendorInvoiceRepository>();
+        services.AddScoped<ICreditNoteRepository, CreditNoteRepository>();
+        services.AddScoped<IDebitNoteRepository, DebitNoteRepository>();
+
+        // ── Engines: SequenceStore ──────────────────────────────────
+        services.AddScoped<ISequenceStore, SequenceStore>();
+
         // Configure caching based on settings
         ConfigureCaching(services, configuration);
-
 
         return services;
     }
@@ -223,6 +238,13 @@ public static class PersistenceDependencies
             {
                 services.Decorate<ICategoryRepository, CachedCategoryRepository>();
             }
+
+
+            // CustomerInvoice Caching
+            services.Decorate<ICustomerInvoiceRepository, CachedCustomerInvoiceRepository>();
+            services.Decorate<IVendorInvoiceRepository, CachedVendorInvoiceRepository>();
+            services.Decorate<ICreditNoteRepository, CachedCreditNoteRepository>();
+            services.Decorate<IDebitNoteRepository, CachedDebitNoteRepository>();
 
             // Always enable localization caching as it's essential
             services.Decorate<ILocalizationRepository, CachedLocalizationRepository>();

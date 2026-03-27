@@ -31,6 +31,7 @@
     <ProjectReference Include="..\..\DomainDrivenERP.Application\DomainDrivenERP.Application.csproj" />
     <ProjectReference Include="..\..\DomainDrivenERP.Persistence\DomainDrivenERP.Persistence.csproj" />
     <ProjectReference Include="..\..\DomainDrivenERP.Infrastructure\DomainDrivenERP.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\DomainDrivenERP.TaxEngine\DomainDrivenERP.TaxEngine.csproj" />
   </ItemGroup>
 
   <ItemGroup>

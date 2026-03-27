@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using DomainDrivenERP.Domain.Abstractions.Identity;
 using DomainDrivenERP.Identity.Data;
 using DomainDrivenERP.Identity.Filters;
@@ -29,7 +29,15 @@ public static class IdentityDependencies
         services.AddScoped<IUser, CurrentUser>();
         services.AddScoped<IRoleService, RoleService>();
         #endregion
-        #region Authontication & JWT
+
+        #region DefaultIdentityOptions  — must come BEFORE AddAuthentication so JWT can win
+        IConfigurationSection iConfigurationSection = configuration.GetSection("IdentityDefaultOptions");
+        services.Configure<DefaultIdentityOptions>(iConfigurationSection);
+        DefaultIdentityOptions? defaultIdentityOptions = iConfigurationSection.Get<DefaultIdentityOptions>();
+        AddIdentityOptions.SetOptions(services, defaultIdentityOptions: defaultIdentityOptions);
+        #endregion
+
+        #region Authentication & JWT  — registered AFTER AddIdentity to override cookie default scheme
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
         services.AddAuthentication(options =>
         {
@@ -55,20 +63,14 @@ public static class IdentityDependencies
         services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
         services.Configure<SecurityStampValidatorOptions>(options => options.ValidationInterval = TimeSpan.Zero);
         #endregion
+
         #region Email
         var emailSettings = new EmailSettings();
         configuration.GetSection(nameof(emailSettings)).Bind(emailSettings);
-
         services.AddSingleton(emailSettings);
-        #endregion
-
-        #region DefaultIdentityOptions
-        IConfigurationSection iConfigurationSection = configuration.GetSection("IdentityDefaultOptions");
-        services.Configure<DefaultIdentityOptions>(iConfigurationSection);
-        DefaultIdentityOptions? defaultIdentityOptions = iConfigurationSection.Get<DefaultIdentityOptions>();
-        AddIdentityOptions.SetOptions(services, defaultIdentityOptions: defaultIdentityOptions);
         #endregion
 
         return services;
     }
+
 }

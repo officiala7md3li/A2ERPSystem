@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDrivenERP.Identity", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDrivenERP.Web", "DomainDrivenERP.Web\DomainDrivenERP.Web.csproj", "{C8FBA3E1-83AE-4FEE-A20E-0B9679B0B72B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainDrivenERP.TaxEngine", "DomainDrivenERP.TaxEngine\DomainDrivenERP.TaxEngine.csproj", "{6C1D75AE-A620-49DF-987E-E2DC2341FB01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -183,6 +185,18 @@ Global
 		{C8FBA3E1-83AE-4FEE-A20E-0B9679B0B72B}.Release|x64.Build.0 = Release|Any CPU
 		{C8FBA3E1-83AE-4FEE-A20E-0B9679B0B72B}.Release|x86.ActiveCfg = Release|Any CPU
 		{C8FBA3E1-83AE-4FEE-A20E-0B9679B0B72B}.Release|x86.Build.0 = Release|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Debug|x64.Build.0 = Debug|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Debug|x86.Build.0 = Debug|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Release|x64.ActiveCfg = Release|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Release|x64.Build.0 = Release|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Release|x86.ActiveCfg = Release|Any CPU
+		{6C1D75AE-A620-49DF-987E-E2DC2341FB01}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

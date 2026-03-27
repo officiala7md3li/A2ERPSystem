@@ -136,70 +136,71 @@ public sealed class Customer : AggregateRoot, IAuditableEntity
     public DateTime CreatedOnUtc { get; set; }
 
     public DateTime? ModifiedOnUtc { get; set; }
-    public Result<Invoice> CreateInvoice(
-        string invoiceSerial,
-        DateTime invoiceDate,
-        decimal invoiceAmount,
-        decimal taxRate = 0.14m,
-        decimal discountRate = 0.10m)
-    {
-        Guard.Against.NullOrEmpty(invoiceSerial, nameof(invoiceSerial));
-        Guard.Against.NullOrEmpty(invoiceDate.ToString(), nameof(invoiceDate));
-        Guard.Against.NumberZero(invoiceAmount, nameof(invoiceAmount));
+    //Invoice بقت Aggregate مستقل
+    //public Result<Invoice> CreateInvoice(
+    //    string invoiceSerial,
+    //    DateTime invoiceDate,
+    //    decimal invoiceAmount,
+    //    decimal taxRate = 0.14m,
+    //    decimal discountRate = 0.10m)
+    //{
+    //    Guard.Against.NullOrEmpty(invoiceSerial, nameof(invoiceSerial));
+    //    Guard.Against.NullOrEmpty(invoiceDate.ToString(), nameof(invoiceDate));
+    //    Guard.Against.NumberZero(invoiceAmount, nameof(invoiceAmount));
 
-        if (this == null)
-        {
-            // Way 1 :
-            // Advantage: Custom Result
-            // Custom result objects can provide structured error handling and additional data.
-            // They allow developers to convey both success and failure outcomes in a unified way.
-            // Disadvantage: No Stack Trace
-            // Custom result objects typically don't include stack trace information, which can be useful for debugging.
-            return Result.Failure<Invoice>(DomainErrors.CustomerErrors.IsNulledCustomer);
+    //    if (this == null)
+    //    {
+    //        // Way 1 :
+    //        // Advantage: Custom Result
+    //        // Custom result objects can provide structured error handling and additional data.
+    //        // They allow developers to convey both success and failure outcomes in a unified way.
+    //        // Disadvantage: No Stack Trace
+    //        // Custom result objects typically don't include stack trace information, which can be useful for debugging.
+    //        return Result.Failure<Invoice>(DomainErrors.CustomerErrors.IsNulledCustomer);
 
-            // Way 2 :
-            // Advantage: Custom Exception
-            // Custom exceptions can provide detailed error information and include stack trace.
-            // They can be caught and handled at various levels in the application.
-            // Disadvantage: Lower Performance
-            // Throwing and handling exceptions can have a performance overhead compared to returning custom result objects.
-            // They are typically used for exceptional circumstances and not for regular control flow.
-            throw new CreateInvoiceOfCustomerIsNullDomainException("Cannot create invoice for null customer.");
-        }
+    //        // Way 2 :
+    //        // Advantage: Custom Exception
+    //        // Custom exceptions can provide detailed error information and include stack trace.
+    //        // They can be caught and handled at various levels in the application.
+    //        // Disadvantage: Lower Performance
+    //        // Throwing and handling exceptions can have a performance overhead compared to returning custom result objects.
+    //        // They are typically used for exceptional circumstances and not for regular control flow.
+    //        throw new CreateInvoiceOfCustomerIsNullDomainException("Cannot create invoice for null customer.");
+    //    }
 
-        decimal invoiceTax = invoiceAmount * taxRate;
-        decimal invoiceDiscount = invoiceAmount * discountRate;
-        decimal invoiceTotal = invoiceAmount + invoiceTax - invoiceDiscount;
+    //    decimal invoiceTax = invoiceAmount * taxRate;
+    //    decimal invoiceDiscount = invoiceAmount * discountRate;
+    //    decimal invoiceTotal = invoiceAmount + invoiceTax - invoiceDiscount;
 
-        var invoice = new Invoice(Guid.NewGuid(), invoiceSerial, invoiceDate, invoiceAmount, invoiceDiscount, invoiceTax, invoiceTotal, Id);
-        _invoices.Add(invoice);
-        RaiseDomainEvent(new CreateInvoiceDomainEvent(Id, invoice));
-        return invoice;
-    }
-    public void AddInvoice(params Invoice[] invoices)
-    {
-        Guard.Against.Null(invoices, nameof(invoices));
+    //    var invoice = new Invoice(Guid.NewGuid(), invoiceSerial, invoiceDate, invoiceAmount, invoiceDiscount, invoiceTax, invoiceTotal, Id);
+    //    _invoices.Add(invoice);
+    //    RaiseDomainEvent(new CreateInvoiceDomainEvent(Id, invoice));
+    //    return invoice;
+    //}
+    //public void AddInvoice(params Invoice[] invoices)
+    //{
+    //    Guard.Against.Null(invoices, nameof(invoices));
 
-        if (invoices == null || invoices.Length == 0)
-        {
-            throw new ArgumentException("At least one invoice must be provided.", nameof(invoices));
-        }
+    //    if (invoices == null || invoices.Length == 0)
+    //    {
+    //        throw new ArgumentException("At least one invoice must be provided.", nameof(invoices));
+    //    }
 
-        foreach (Invoice invoice in invoices)
-        {
-            if (invoice.CustomerId != Id)
-            {
-                throw new ArgumentException("The provided invoice does not belong to this customer.");
-            }
+    //    foreach (Invoice invoice in invoices)
+    //    {
+    //        if (invoice.CustomerId != Id)
+    //        {
+    //            throw new ArgumentException("The provided invoice does not belong to this customer.");
+    //        }
 
-            if (_invoices.Any(i => i.Id == invoice.Id))
-            {
-                throw new InvalidOperationException($"Invoice with ID '{invoice.Id}' has already been added to this customer.");
-            }
+    //        if (_invoices.Any(i => i.Id == invoice.Id))
+    //        {
+    //            throw new InvalidOperationException($"Invoice with ID '{invoice.Id}' has already been added to this customer.");
+    //        }
 
-            _invoices.Add(invoice);
-        }
-    }
+    //        _invoices.Add(invoice);
+    //    }
+    //}
 
     public Result<Invoice> UpdateCustomerInvoiceStatus(Invoice invoice, InvoiceStatus newStatus)
     {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -108,7 +108,7 @@ internal class CustomerSqlRepository : ICustomerRespository
                   }
                   if (invoice != null)
                   {
-                      cust.AddInvoice(invoice);
+                      // cust.AddInvoice(invoice);
                   }
                   return cust;
               },

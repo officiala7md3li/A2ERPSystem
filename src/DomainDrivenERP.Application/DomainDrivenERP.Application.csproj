@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DomainDrivenERP.Domain\DomainDrivenERP.Domain.csproj" />
+    <ProjectReference Include="..\DomainDrivenERP.TaxEngine\DomainDrivenERP.TaxEngine.csproj" />
   </ItemGroup>
   <ItemGroup>
 	  <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
