@@ -33,6 +33,10 @@ using DomainDrivenERP.Domain.Abstractions.Persistence.Data;
 using DomainDrivenERP.Domain.Abstractions.Persistence.Caching;
 using DomainDrivenERP.Application.Engines.SequenceEngine;
 using DomainDrivenERP.Persistence.Repositories.Sequences;
+using DomainDrivenERP.Persistence.Repositories.Currencies;
+using DomainDrivenERP.Persistence.Repositories.UnitOfMeasures;
+using DomainDrivenERP.Persistence.Repositories.Companies;
+using DomainDrivenERP.Persistence.Repositories.TaxDefinitions;
 
 namespace DomainDrivenERP.Persistence;
 
@@ -110,6 +114,12 @@ public static class PersistenceDependencies
 
         // ── Engines: SequenceStore ──────────────────────────────────
         services.AddScoped<ISequenceStore, SequenceStore>();
+
+        // ── Phase 1 Foundation Repositories ─────────────────────────
+        services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+        services.AddScoped<IUnitOfMeasureRepository, UnitOfMeasureRepository>();
+        services.AddScoped<ICompanyRepository, CompanyRepository>();
+        services.AddScoped<ITaxDefinitionRepository, TaxDefinitionRepository>();
 
         // Configure caching based on settings
         ConfigureCaching(services, configuration);

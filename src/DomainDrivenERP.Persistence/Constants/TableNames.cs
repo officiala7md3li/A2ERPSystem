@@ -1,4 +1,4 @@
-namespace DomainDrivenERP.Persistence.Constants;
+﻿namespace DomainDrivenERP.Persistence.Constants;
 
 internal static class TableNames
 {
@@ -44,4 +44,30 @@ internal static class TableNames
     internal const string TranslationExports = nameof(TranslationExports);
     internal const string LocalizationSettings = nameof(LocalizationSettings);
     internal const string TranslationAudits = nameof(TranslationAudits);
+
+    // -- Phase 1 Entities -----------------------------------------
+    internal const string Currencies = nameof(Currencies);
+    internal const string UnitOfMeasures = nameof(UnitOfMeasures);
+    internal const string Companies = nameof(Companies);
+    internal const string TaxDefinitions = nameof(TaxDefinitions);
+    internal const string TaxDependencies = nameof(TaxDependencies);
+
+    // ── Phase 2 Entities ─────────────────────────────────────────
+    internal const string Vendor = nameof(Vendor);
+    internal const string TaxGroups = nameof(TaxGroups);
+    internal const string TaxGroupItems = nameof(TaxGroupItems);
+    internal const string DiscountGroups = nameof(DiscountGroups);
+    internal const string DiscountRules = nameof(DiscountRules);
+    internal const string PriceLists = nameof(PriceLists);
+    internal const string PriceListItems = nameof(PriceListItems);
+
+    // ── Vendor Lookups ──────────────────────────────────────────
+    internal const string VendorTypes = nameof(VendorTypes);
+    internal const string VendorCategories = nameof(VendorCategories);
+    internal const string VendorGroups = nameof(VendorGroups);
+
+    // ── Phase 3 Entities ─────────────────────────────────────────
+    internal const string Warehouses = nameof(Warehouses);
+    internal const string PromoCodes = nameof(PromoCodes);
+    internal const string PromoCodeUsages = nameof(PromoCodeUsages);
 }

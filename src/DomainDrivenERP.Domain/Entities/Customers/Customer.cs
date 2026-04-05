@@ -130,6 +130,12 @@ public sealed class Customer : AggregateRoot, IAuditableEntity
     public LastName LastName { get; private set; }
     public Email Email { get; private set; }
     public string Phone { get; private set; }
+
+    // ── Classification (nullable FK → shared lookup entities) ──
+    public Guid? VendorTypeId { get; private set; }
+    public Guid? VendorCategoryId { get; private set; }
+    public Guid? VendorGroupId { get; private set; }
+
     public IReadOnlyCollection<Invoice> Invoices => _invoices;
     public IReadOnlyCollection<Order> Orders => _orders;
 

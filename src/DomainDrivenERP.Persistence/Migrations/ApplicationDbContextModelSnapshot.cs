@@ -96,37 +96,180 @@ namespace DomainDrivenERP.Persistence.Migrations
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
                             Cancelled = false,
-                            CreatedOnUtc = new DateTime(2026, 3, 24, 0, 20, 32, 813, DateTimeKind.Utc).AddTicks(8254),
+                            CreatedOnUtc = new DateTime(2026, 4, 5, 23, 35, 59, 201, DateTimeKind.Utc).AddTicks(7389),
                             Name = "Electronics"
                         },
                         new
                         {
                             Id = new Guid("22222222-2222-2222-2222-222222222222"),
                             Cancelled = false,
-                            CreatedOnUtc = new DateTime(2026, 3, 24, 0, 20, 32, 813, DateTimeKind.Utc).AddTicks(8258),
+                            CreatedOnUtc = new DateTime(2026, 4, 5, 23, 35, 59, 201, DateTimeKind.Utc).AddTicks(7391),
                             Name = "Clothing"
                         },
                         new
                         {
                             Id = new Guid("33333333-3333-3333-3333-333333333333"),
                             Cancelled = false,
-                            CreatedOnUtc = new DateTime(2026, 3, 24, 0, 20, 32, 813, DateTimeKind.Utc).AddTicks(8259),
+                            CreatedOnUtc = new DateTime(2026, 4, 5, 23, 35, 59, 201, DateTimeKind.Utc).AddTicks(7393),
                             Name = "Books"
                         },
                         new
                         {
                             Id = new Guid("44444444-4444-4444-4444-444444444444"),
                             Cancelled = false,
-                            CreatedOnUtc = new DateTime(2026, 3, 24, 0, 20, 32, 813, DateTimeKind.Utc).AddTicks(8260),
+                            CreatedOnUtc = new DateTime(2026, 4, 5, 23, 35, 59, 201, DateTimeKind.Utc).AddTicks(7394),
                             Name = "Home & Garden"
                         },
                         new
                         {
                             Id = new Guid("55555555-5555-5555-5555-555555555555"),
                             Cancelled = false,
-                            CreatedOnUtc = new DateTime(2026, 3, 24, 0, 20, 32, 813, DateTimeKind.Utc).AddTicks(8260),
+                            CreatedOnUtc = new DateTime(2026, 4, 5, 23, 35, 59, 201, DateTimeKind.Utc).AddTicks(7394),
                             Name = "Sports & Outdoors"
                         });
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Companies.Company", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("AllowCancelWithReservation")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AllowNegativeStock")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("BaseCurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CommercialRegistrationNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DefaultStackingMode")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("DefaultTaxOrder")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LogoUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<decimal?>("MaxDiscountAmountPerInvoice")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<decimal?>("MaxDiscountPercentPerLine")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<bool>("ReserveStockOnSalesOrder")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("StockValuation")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("TaxRegistrationNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaxRegistrationNumber")
+                        .IsUnique();
+
+                    b.ToTable("Companies", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Currencies.Currency", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsBase")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Symbol")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("Currencies", (string)null);
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Customers.Customer", b =>
@@ -160,12 +303,98 @@ namespace DomainDrivenERP.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("VendorCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("VendorGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("VendorTypeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
                     b.ToTable("Customers", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.DiscountGroups.DiscountGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("DiscountGroups", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.DiscountGroups.DiscountRule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("DiscountGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TiersJson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DiscountGroupId");
+
+                    b.ToTable("DiscountRules", (string)null);
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.CreditNote", b =>
@@ -1239,6 +1468,85 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.ToTable("Orders", (string)null);
                 });
 
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.PriceLists.PriceList", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("ValidFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ValidTo")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("PriceLists", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.PriceLists.PriceListItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("DiscountPercent")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<decimal?>("FixedPrice")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PriceListId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PriceListId", "ItemId")
+                        .IsUnique();
+
+                    b.ToTable("PriceListItems", (string)null);
+                });
+
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Products.Product", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1258,6 +1566,21 @@ namespace DomainDrivenERP.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("DiscountGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDiscountExempt")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsTaxExempt")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("MaximumDiscountPercent")
+                        .HasColumnType("decimal(5,2)");
+
+                    b.Property<decimal?>("MinimumSalePrice")
+                        .HasColumnType("decimal(18,4)");
+
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1276,11 +1599,283 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.Property<int>("StockQuantity")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("TaxGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TaxGroupSource")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasDefaultValue("Category");
+
+                    b.Property<Guid>("UnitOfMeasureId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("DiscountGroupId");
+
+                    b.HasIndex("TaxGroupId");
+
+                    b.HasIndex("UnitOfMeasureId");
+
                     b.ToTable("Products", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.PromoCodes.PromoCode", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CurrentUses")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<Guid?>("DiscountGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DiscountType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("DiscountValue")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsCombinable")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("MaxUses")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MaxUsesPerCustomer")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("MinimumOrderAmount")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("Code", "CompanyId")
+                        .IsUnique();
+
+                    b.ToTable("PromoCodes", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.PromoCodes.PromoCodeUsage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("DiscountApplied")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PromoCodeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UsedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("PromoCodeId", "CustomerId");
+
+                    b.ToTable("PromoCodeUsages", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.TaxDefinitions.TaxDefinition", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AppliesTo")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("CalculationMethod")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsWithholding")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal>("Rate")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("TaxDefinitions", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.TaxDefinitions.TaxDependency", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("DependsOnTaxId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TaxDefinitionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaxDefinitionId", "DependsOnTaxId")
+                        .IsUnique();
+
+                    b.ToTable("TaxDependencies", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.TaxGroups.TaxGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("TaxGroups", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.TaxGroups.TaxGroupItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("OverrideRate")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<Guid>("TaxDefinitionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TaxGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaxGroupId", "TaxDefinitionId")
+                        .IsUnique();
+
+                    b.ToTable("TaxGroupItems", (string)null);
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Transactions.Transaction", b =>
@@ -1311,6 +1906,351 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.HasIndex("JournalId");
 
                     b.ToTable("Transactions", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.UnitOfMeasures.UnitOfMeasure", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("BaseUomId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("ConversionFactor")
+                        .HasColumnType("decimal(18,6)");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BaseUomId");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("UnitOfMeasures", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Vendors.Vendor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("CommercialRegistrationNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContactPersonName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal?>("CreditLimit")
+                        .HasColumnType("decimal(18,4)");
+
+                    b.Property<Guid>("DefaultCurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DefaultTaxGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("PaymentTermDays")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("TaxRegistrationNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<Guid?>("VendorCategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("VendorGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("VendorTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("VendorCategoryId");
+
+                    b.HasIndex("VendorGroupId");
+
+                    b.HasIndex("VendorTypeId");
+
+                    b.HasIndex("TaxRegistrationNumber", "CompanyId")
+                        .IsUnique();
+
+                    b.ToTable("Vendors", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Vendors.VendorCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("VendorCategories", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Vendors.VendorGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("VendorGroups", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Vendors.VendorType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Code")
+                        .IsUnique();
+
+                    b.ToTable("VendorTypes", (string)null);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Warehouses.Warehouse", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("AcceptsReservations")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<bool>("Cancelled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDefaultForPurchases")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDefaultForSales")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ManagerName")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime?>("ModifiedOnUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NameAr")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("NameEn")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<Guid?>("ParentWarehouseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Phone")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("ParentWarehouseId");
+
+                    b.HasIndex("Code", "CompanyId")
+                        .IsUnique();
+
+                    b.ToTable("Warehouses", (string)null);
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Persistence.Entities.SequenceCounter", b =>
@@ -1389,6 +2329,15 @@ namespace DomainDrivenERP.Persistence.Migrations
                         .HasForeignKey("ParentAccountId");
 
                     b.Navigation("ParentAccount");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.DiscountGroups.DiscountRule", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.DiscountGroups.DiscountGroup", null)
+                        .WithMany("Rules")
+                        .HasForeignKey("DiscountGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.Invoice", b =>
@@ -1514,6 +2463,15 @@ namespace DomainDrivenERP.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.PriceLists.PriceListItem", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.PriceLists.PriceList", null)
+                        .WithMany("Items")
+                        .HasForeignKey("PriceListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Products.Product", b =>
                 {
                     b.HasOne("DomainDrivenERP.Domain.Entities.Categories.Category", null)
@@ -1548,6 +2506,33 @@ namespace DomainDrivenERP.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.PromoCodes.PromoCodeUsage", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.PromoCodes.PromoCode", null)
+                        .WithMany("Usages")
+                        .HasForeignKey("PromoCodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.TaxDefinitions.TaxDependency", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.TaxDefinitions.TaxDefinition", null)
+                        .WithMany("Dependencies")
+                        .HasForeignKey("TaxDefinitionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.TaxGroups.TaxGroupItem", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.TaxGroups.TaxGroup", null)
+                        .WithMany("Items")
+                        .HasForeignKey("TaxGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Transactions.Transaction", b =>
                 {
                     b.HasOne("DomainDrivenERP.Domain.Entities.COAs.Accounts", "COA")
@@ -1563,6 +2548,22 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.Navigation("COA");
 
                     b.Navigation("Journal");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.UnitOfMeasures.UnitOfMeasure", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.UnitOfMeasures.UnitOfMeasure", null)
+                        .WithMany()
+                        .HasForeignKey("BaseUomId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Warehouses.Warehouse", b =>
+                {
+                    b.HasOne("DomainDrivenERP.Domain.Entities.Warehouses.Warehouse", null)
+                        .WithMany("SubWarehouses")
+                        .HasForeignKey("ParentWarehouseId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.COAs.Accounts", b =>
@@ -1582,6 +2583,11 @@ namespace DomainDrivenERP.Persistence.Migrations
                     b.Navigation("Invoices");
 
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.DiscountGroups.DiscountGroup", b =>
+                {
+                    b.Navigation("Rules");
                 });
 
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Invoices.CreditNote", b =>
@@ -1628,6 +2634,31 @@ namespace DomainDrivenERP.Persistence.Migrations
             modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Orders.Order", b =>
                 {
                     b.Navigation("LineItems");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.PriceLists.PriceList", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.PromoCodes.PromoCode", b =>
+                {
+                    b.Navigation("Usages");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.TaxDefinitions.TaxDefinition", b =>
+                {
+                    b.Navigation("Dependencies");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.TaxGroups.TaxGroup", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("DomainDrivenERP.Domain.Entities.Warehouses.Warehouse", b =>
+                {
+                    b.Navigation("SubWarehouses");
                 });
 #pragma warning restore 612, 618
         }

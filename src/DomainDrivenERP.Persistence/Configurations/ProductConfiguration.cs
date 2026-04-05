@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DomainDrivenERP.Domain.Entities.Categories;
-using DomainDrivenERP.Domain.Entities.Products;
+﻿using DomainDrivenERP.Domain.Entities.Products;
 using DomainDrivenERP.Persistence.Constants;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
@@ -39,8 +33,19 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
                   }
               );
 
-        //builder.HasOne<Category>()
-        //        .WithMany()
-        //        .HasForeignKey(x => x.CategoryId).IsRequired();
+        // ── Phase 3 Enrichment Fields ──────────────────────────
+        builder.Property(x => x.UnitOfMeasureId).IsRequired();
+        builder.HasIndex(x => x.UnitOfMeasureId);
+
+        builder.HasIndex(x => x.TaxGroupId);
+        builder.Property(x => x.TaxGroupSource)
+            .HasConversion<string>()
+            .HasMaxLength(20)
+            .HasDefaultValue(DomainDrivenERP.Domain.Enums.TaxGroupSource.Category);
+
+        builder.HasIndex(x => x.DiscountGroupId);
+
+        builder.Property(x => x.MinimumSalePrice).HasColumnType("decimal(18,4)");
+        builder.Property(x => x.MaximumDiscountPercent).HasColumnType("decimal(5,2)");
     }
 }

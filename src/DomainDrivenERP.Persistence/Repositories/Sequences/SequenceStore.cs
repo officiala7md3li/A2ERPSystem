@@ -59,11 +59,14 @@ public sealed class SequenceStore : ISequenceStore
         string prefix, Guid companyId, DateTime date, CancellationToken ct = default)
     {
         var effectiveDate = date.Date;
+        var conn = _context.Database.GetDbConnection();
+        if (conn.State != System.Data.ConnectionState.Open)
+            await conn.OpenAsync(ct);
 
-        // Use EF's ExecuteSqlRawAsync to avoid Dapper's separate transaction conflicting with EF's connection state.
-        var upsertSql = @"
+        // Single atomic MERGE with OUTPUT — eliminates race condition between increment and read-back
+        var sql = @"
             MERGE SequenceCounters WITH (HOLDLOCK) AS target
-            USING (VALUES ({0}, {1}, {2}, CAST(1 AS BIGINT)))
+            USING (VALUES (@Prefix, @CompanyId, @Date, CAST(1 AS BIGINT)))
                 AS source (Prefix, CompanyId, SequenceDate, CounterValue)
             ON  target.Prefix = source.Prefix
             AND target.CompanyId = source.CompanyId
@@ -72,17 +75,11 @@ public sealed class SequenceStore : ISequenceStore
                 UPDATE SET CounterValue = target.CounterValue + 1
             WHEN NOT MATCHED THEN
                 INSERT (Id, Prefix, CompanyId, SequenceDate, CounterValue)
-                VALUES (NEWID(), source.Prefix, source.CompanyId, source.SequenceDate, source.CounterValue);";
-
-        await _context.Database.ExecuteSqlRawAsync(upsertSql, new object[] { prefix, companyId, effectiveDate }, ct);
-
-        // Read back the counter value
-        var conn = _context.Database.GetDbConnection();
-        if (conn.State != System.Data.ConnectionState.Open)
-            await conn.OpenAsync(ct);
+                VALUES (NEWID(), source.Prefix, source.CompanyId, source.SequenceDate, source.CounterValue)
+            OUTPUT INSERTED.CounterValue;";
 
         var nextValue = await conn.ExecuteScalarAsync<long>(
-            "SELECT CounterValue FROM SequenceCounters WHERE Prefix = @Prefix AND CompanyId = @CompanyId AND SequenceDate = @Date",
+            sql,
             new { Prefix = prefix, CompanyId = companyId, Date = effectiveDate });
 
         return nextValue;

@@ -6,13 +6,13 @@ using DomainDrivenERP.Domain.ValueObjects;
 
 namespace DomainDrivenERP.Domain.Entities.Invoices;
 
-public sealed class InvoiceLine : AggregateRoot, IAuditableEntity
+public sealed class InvoiceLine : BaseEntity
 {
     private readonly List<LineTaxBreakdown> _taxBreakdowns = new();
     private readonly List<LineDiscountBreakdown> _discountBreakdowns = new();
 
-    // Required for Dapper
-    public InvoiceLine() { }
+    // Required for Dapper / EF
+    private InvoiceLine() { }
 
     private InvoiceLine(
         Guid id,
@@ -71,10 +71,6 @@ public sealed class InvoiceLine : AggregateRoot, IAuditableEntity
     // ── Collections ───────────────────────────────────────
     public IReadOnlyCollection<LineTaxBreakdown> TaxBreakdowns => _taxBreakdowns;
     public IReadOnlyCollection<LineDiscountBreakdown> DiscountBreakdowns => _discountBreakdowns;
-
-    public DateTime CreatedOnUtc { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public DateTime? ModifiedOnUtc { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
 
     // ── Factory ───────────────────────────────────────────
     public static Result<InvoiceLine> Create(

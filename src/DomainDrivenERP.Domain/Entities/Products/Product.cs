@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DomainDrivenERP.Domain.Entities.Products.DomainEvents;
+using DomainDrivenERP.Domain.Enums;
 using DomainDrivenERP.Domain.Errors;
 using DomainDrivenERP.Domain.Primitives;
 using DomainDrivenERP.Domain.Shared.Guards;
@@ -14,7 +15,7 @@ namespace DomainDrivenERP.Domain.Entities.Products;
 public class Product : AggregateRoot, IAuditableEntity
 {
     public Product() { }
-    private Product(Guid id, string name, Price price, int stockQuantity, SKU sku, string model, string details, Guid categoryId)
+    private Product(Guid id, string name, Price price, int stockQuantity, SKU sku, string model, string details, Guid categoryId, Guid unitOfMeasureId)
                : base(id)
     {
         Guard.Against.NullOrEmpty(name, nameof(name));
@@ -32,6 +33,8 @@ public class Product : AggregateRoot, IAuditableEntity
         Model = model;
         Details = details;
         CategoryId = categoryId;
+        UnitOfMeasureId = unitOfMeasureId;
+        TaxGroupSource = TaxGroupSource.Category;
     }
 
     public string Name { get; private set; }
@@ -41,10 +44,21 @@ public class Product : AggregateRoot, IAuditableEntity
     public string Model { get; private set; }
     public string Details { get; private set; }
     public Guid CategoryId { get; private set; }
+
+    // ── Phase 3 Enrichment Fields ──────────────────────────
+    public Guid UnitOfMeasureId { get; private set; }               // Required — Phase 1 link
+    public Guid? TaxGroupId { get; private set; }                   // Custom tax group — Phase 2
+    public TaxGroupSource TaxGroupSource { get; private set; }      // Category / Custom / Exempt
+    public bool IsTaxExempt { get; private set; }                   // Fully exempt from all taxes
+    public Guid? DiscountGroupId { get; private set; }              // Custom discount group — Phase 2
+    public bool IsDiscountExempt { get; private set; }              // No discounts allowed
+    public decimal? MinimumSalePrice { get; private set; }          // Cannot sell below this
+    public decimal? MaximumDiscountPercent { get; private set; }    // Item-level discount cap
+
     public DateTime CreatedOnUtc { get; set; }
     public DateTime? ModifiedOnUtc { get; set; }
 
-    public static Result<Product> Create(string name, decimal amount, string currency, int stockQuantity, string sku, string model, string details, Guid categoryId)
+    public static Result<Product> Create(string name, decimal amount, string currency, int stockQuantity, string sku, string model, string details, Guid categoryId, Guid unitOfMeasureId = default)
     {
         var id = Guid.NewGuid();
         if (string.IsNullOrWhiteSpace(name))
@@ -88,7 +102,7 @@ public class Product : AggregateRoot, IAuditableEntity
             return Result.Failure<Product>(DomainErrors.ProductErrors.InvalidCategoryId);
         }
 
-        var product = new Product(id, name, priceResult.Value, stockQuantity, skuResult.Value, model, details, categoryId);
+        var product = new Product(id, name, priceResult.Value, stockQuantity, skuResult.Value, model, details, categoryId, unitOfMeasureId);
         product.RaiseDomainEvent(new CreateProductDomainEvent(product.Id, name, amount, currency, stockQuantity, sku, model, details, categoryId));
         return Result.Success(product);
     }
@@ -163,4 +177,39 @@ public class Product : AggregateRoot, IAuditableEntity
 
         return Result.Success(discountedPrice);
     }
+
+    // ── Phase 3 Domain Methods ────────────────────────────
+    /// <summary>
+    /// Resolves the effective TaxGroupId based on TaxGroupSource.
+    /// Used by Orchestrator during invoice line resolution.
+    /// </summary>
+    public Guid? GetEffectiveTaxGroupId(Guid? categoryDefaultTaxGroupId) => TaxGroupSource switch
+    {
+        TaxGroupSource.Exempt  => null,
+        TaxGroupSource.Custom  => TaxGroupId,
+        TaxGroupSource.Category => categoryDefaultTaxGroupId,
+        _ => categoryDefaultTaxGroupId
+    };
+
+    public void SetTaxGroup(Guid? taxGroupId, TaxGroupSource source)
+    {
+        TaxGroupId = taxGroupId;
+        TaxGroupSource = source;
+        IsTaxExempt = source == TaxGroupSource.Exempt;
+    }
+
+    public void SetDiscountGroup(Guid? discountGroupId, bool isExempt = false)
+    {
+        DiscountGroupId = discountGroupId;
+        IsDiscountExempt = isExempt;
+    }
+
+    public void SetPricingLimits(decimal? minimumSalePrice, decimal? maximumDiscountPercent)
+    {
+        MinimumSalePrice = minimumSalePrice;
+        MaximumDiscountPercent = maximumDiscountPercent;
+    }
+
+    public void SetUnitOfMeasure(Guid unitOfMeasureId)
+        => UnitOfMeasureId = unitOfMeasureId;
 }
